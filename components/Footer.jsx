@@ -65,7 +65,7 @@ const Footer = () => {
   ];
 
   return (
-    <StyledFooter component="footer">
+    <StyledFooter component="footer" className="footer-class">
       <Container maxWidth="lg">
         <Grid2 container spacing={isMobile ? 2 : 4}>
           <Grid2 item xs={12} sm={6} md={3}>

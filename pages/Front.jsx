@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 const Front = () => {
   return (
     <>
-      <div>
+      <div className='front-container'>
         <main className='grid-container'>
           <div className='bannner'>
             <img src="..\public\images\img1.jpg" alt="" srcSet="" />
@@ -16,16 +16,13 @@ const Front = () => {
             <Button variant="outlined">Login Now</Button>
           </div>
           <div className='cards'>
-            <h3>Our Avalible Tools</h3>
+            <h3>Our Avaliable Tools</h3>
             <Cards />
             <div className='btn-2'>
               <Button variant="outlined">View More</Button>
             </div>
           </div>
         </main>
-        <footer>
-          <Footer/>
-        </footer>
       </div>
     </>
   )

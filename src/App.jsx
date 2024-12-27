@@ -1,6 +1,7 @@
-import { useState } from 'react'
 import Front from '../pages/Front'
+import ProductFront from '../pages/ProductFront'
 import FrontNavbar from '../components/FrontNavbar'
+import Footer from '../components/Footer'
 import {
   // HashRouter as Router,
   BrowserRouter as Router,
@@ -12,11 +13,15 @@ import {
 function App() {
   return (
     <>
-    <Router>
-        <FrontNavbar/>
-          <Routes>
-            <Route path="/" exact element={<Front/>} />
-          </Routes>
+      <Router>
+        <FrontNavbar />
+        <Routes>
+          <Route path="/" exact element={<Front />} />
+          <Route path="/products" exact element={<ProductFront />} />
+        </Routes>
+        <footer>
+          <Footer />
+        </footer>
       </Router>
     </>
   )
