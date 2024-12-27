@@ -41,7 +41,7 @@ body{
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     margin: 66px auto;
-    flex: 1;
+    /* flex: 1; */
 }
 
 .grid-container img{
@@ -216,7 +216,7 @@ footer{
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     margin: 20px auto;
-    flex: 1;
+    /* flex: 1; */
 }
 
 .cards-productfront{
@@ -245,3 +245,63 @@ footer{
     flex-direction: column;
     min-height: 100vh;
   }
+
+/* responsive design */
+
+
+
+
+
+
+
+
+.text-to-image-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.grid-container-text{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 100px auto;
+    /* flex: 1; */
+}
+
+.text2image-inputbar{
+    grid-column: span 3;
+    margin-top: 20px auto;
+    text-align: center;
+}
+
+#outlined-basic{
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.css-18eqq4s-MuiButtonBase-root-MuiButton-root {
+    border: 1px solid #fff !important;
+    border-color: #fff !important;
+    color: #fff !important;
+    padding: 5px 20px;
+    transition: 0.3s !important;
+}
+
+.css-18eqq4s-MuiButtonBase-root-MuiButton-root:hover {
+    padding: 5px 30px;
+    background-color: #fff;
+    color: #242424 !important;
+    -webkit-box-shadow: -1px 0px 8px 1px rgba(255,255,255,1);
+    -moz-box-shadow: -1px 0px 8px 1px rgba(255,255,255,1);
+    box-shadow: -1px 0px 8px 1px rgba(255,255,255,1);
+    
+}
+
+.text2image-loading{
+    grid-column: span 3;
+    margin-top: 0 auto;
+    padding-bottom: 60px;
+    padding-top: 100px;
+    text-align: center;
+}
