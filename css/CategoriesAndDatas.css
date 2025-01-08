@@ -1,0 +1,139 @@
+.data-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.grid-data-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 50px auto;
+}
+
+.categories-chart-data{
+    grid-column: span 3;
+    margin: 60px auto;
+    padding-bottom: 60px;
+    text-align: center;
+}
+
+.categories-table-data{
+    grid-column: span 3;
+    margin: 20px auto;
+    padding-bottom: 60px;
+    text-align: center;
+    /* max-width: 1000px; */
+}
+
+.MuiChartsLegend-series text {
+  fill: #ffffff !important;
+}
+
+.css-av90ce-MuiPaper-root{
+    background-color: #242424 !important;
+    color: #fff !important;
+}
+
+.MuiSvgIcon-root{
+    fill: #fff !important;
+}
+
+td.MuiTableCell-root{
+    color: #fff !important;
+}
+
+span.MuiTypography-root{
+    color: #fff !important;
+}
+
+span.MuiSwitch-thumb{
+    background-color: #fff !important;
+}
+span.MuiSwitch-track{
+    background-color: #fff !important;
+}
+
+span.MuiButtonBase-root{
+    color: #fff !important;
+}
+
+.MuiTablePagination-selectLabel{
+    color: #fff !important;
+}
+
+.MuiTablePagination-displayedRows{
+    color: #fff !important;
+}
+
+th{
+    color: #fff !important;
+}
+
+
+
+
+@media screen and (min-width: 1024px) {
+    .grid-data-container {
+        grid-template-columns: 1fr;
+    }
+
+    .categories-table-data{
+        max-width: 1000px;
+    }
+
+
+}
+
+@media screen and (max-width: 1024px) {
+    .grid-data-container {
+        grid-template-columns: 1fr;
+    }
+
+    .categories-table-data{
+        max-width: 800px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .grid-data-container {
+        grid-template-columns: 1fr;
+    }
+
+    .categories-table-data{
+        max-width: 600px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .grid-data-container {
+        grid-template-columns: 1fr;
+    }
+
+    .categories-table-data{
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .grid-data-container {
+        grid-template-columns: 1fr;
+    }
+
+    .categories-table-data{
+        max-width: 400px;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    .grid-data-container {
+        grid-template-columns: 1fr;
+    }
+
+    .categories-table-data{
+        max-width: 350px;
+    }
+}
+
+

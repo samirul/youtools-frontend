@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-export default function BasicTextFields() {
+export default function InputBar() {
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (e) => {

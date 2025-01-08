@@ -8,7 +8,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 export default function ProductCards() {
     return (
         <div className="cards-grid-products">
-            <Card sx={{ maxWidth: 345 }} className='card-items' onClick={() => window.location.href = 'https://google.com'}>
+            <Card sx={{ maxWidth: 345 }} className='card-items' onClick={() => window.location.href = '/generate-image'}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -27,7 +27,7 @@ export default function ProductCards() {
                     </CardContent>
                 </CardActionArea>
             </Card>
-            <Card sx={{ maxWidth: 345 }} className='card-items' onClick={() => window.location.href = 'https://google.com'}>
+            <Card sx={{ maxWidth: 345 }} className='card-items' onClick={() => window.location.href = '/analysis-youtube-comments'}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
