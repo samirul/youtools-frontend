@@ -15,17 +15,20 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Grid2} from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const TextToImage = () => {
   const [progress, setProgress] = useState(0);
-  const [taskid, setTaskID] = useState(Cookies.get('task_id_text2'))
+  const [taskid, setTaskID] = useState(Cookies.get('task_id_text2'));
   const [status, setStatus] = useState("Waiting for text..");
   const [inputValue, setInputValue] = useState('');
-  const [imageData, setImageData] = useState([])
-  const [deletedImage, setDeletedImage] = useState(false)
+  const [imageData, setImageData] = useState([]);
+  const [deletedImage, setDeletedImage] = useState(false);
+  const [backdrop, setBackDrop] = useState(false);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTE0OTMxLCJpYXQiOjE3MzY1MTM3MzEsImp0aSI6IjA5ZjYxZTNiMWYyODQ2N2JiY2EzM2M0YjA4OTU4NGJkIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.lh-WhyXpnsNNftkyEjta-DwBJv7xma4R24i_Own24oE"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTIxMDU1LCJpYXQiOjE3MzY1MTk4NTUsImp0aSI6IjlkZmVmNzRkMjFiNjRlNmNhZjI3ZDdlYTdkOWRhNGVhIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.aNfE0Qol1MpoPcCkPCQgivtutX6ykP4rWcsti5E1hGI"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -102,6 +105,7 @@ const TextToImage = () => {
 
 
   useEffect(()=>{
+    setBackDrop(true);
     const fetchImages = setInterval( async () =>{
       try{
         const response = await axios.get("http://127.0.0.1:8000/api/images/", {
@@ -114,9 +118,11 @@ const TextToImage = () => {
         })
         setImageData(response.data.msg.data)
         clearInterval(fetchImages);
+        setBackDrop(false);
       } catch(error){
         console.log(error)
         clearInterval(fetchImages);
+        setBackDrop(false);
       }
     }, 1000);
     return () => {
@@ -197,6 +203,12 @@ const TextToImage = () => {
   return (
     <>
       <div className='text-to-image-container'>
+      <Backdrop
+        sx={(theme) => ({color: '#45fcfa', zIndex: theme.zIndex.drawer + 1 })}
+        open={backdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
         <main className='grid-container-text'>
           <div className="text2image-loading">
             <Box sx={{ width: '100%' }}>
