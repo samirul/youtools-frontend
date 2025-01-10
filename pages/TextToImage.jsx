@@ -28,7 +28,7 @@ const TextToImage = () => {
   const [deletedImage, setDeletedImage] = useState(false);
   const [backdrop, setBackDrop] = useState(false);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTIxMDU1LCJpYXQiOjE3MzY1MTk4NTUsImp0aSI6IjlkZmVmNzRkMjFiNjRlNmNhZjI3ZDdlYTdkOWRhNGVhIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.aNfE0Qol1MpoPcCkPCQgivtutX6ykP4rWcsti5E1hGI"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTI3MDYzLCJpYXQiOjE3MzY1MjU4NjMsImp0aSI6IjU3YmY2Y2U5ZmRmZjQwYmZiMzZjYzU2ZGJiYjJhOTAzIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.t_AgLjAq8iClPzqrC8I5OoJlesSU_XtdMUu8-056nUk"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -58,6 +58,17 @@ const TextToImage = () => {
     value: PropTypes.number.isRequired,
   };
 
+  useEffect(()=>{
+    const checkBackdropSession = sessionStorage.getItem('BackdropSession');
+    if(!checkBackdropSession){
+      setBackDrop(true);
+      sessionStorage.setItem('BackdropSession', "true");
+      setTimeout(()=>{
+        setBackDrop(false);
+      }, 2500)
+    }
+    sessionStorage.removeItem('BackdropSession')
+  },[])
 
   useEffect(() => {
     if (taskid != null && taskid != undefined && taskid != 0) {
@@ -105,7 +116,6 @@ const TextToImage = () => {
 
 
   useEffect(()=>{
-    setBackDrop(true);
     const fetchImages = setInterval( async () =>{
       try{
         const response = await axios.get("http://127.0.0.1:8000/api/images/", {
@@ -118,11 +128,9 @@ const TextToImage = () => {
         })
         setImageData(response.data.msg.data)
         clearInterval(fetchImages);
-        setBackDrop(false);
       } catch(error){
         console.log(error)
         clearInterval(fetchImages);
-        setBackDrop(false);
       }
     }, 1000);
     return () => {
