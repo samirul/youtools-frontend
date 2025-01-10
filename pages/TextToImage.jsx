@@ -22,7 +22,7 @@ const TextToImage = () => {
   const [inputValue, setInputValue] = useState('');
   const [imageData, setImageData] = useState([])
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2MzU3Mzg3LCJpYXQiOjE3MzYzNTYxODcsImp0aSI6IjkyMjg3NzE4N2U1MjQ2YWU4Y2E4MTQxNDZjMTAyMjc4IiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.AWyv1pmM2gp373QhI1nmnjT_K-GpcBSqLl23TB3-pM8"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NDk4NTYxLCJpYXQiOjE3MzY0OTczNjEsImp0aSI6ImMwYzRjNGM1NGJhMDQ2MDdhNGQ3MzAyNDEwZDVhYmUyIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.yAhuVgFPqpsce4vgVZ6hYpwGK0t_c9Sw06FXoPOYL8s"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -68,7 +68,7 @@ const TextToImage = () => {
           console.log(data)
           setProgress(data.progress)
           if (data.state == "PENDING") {
-            setStatus("Found a text, Please wait for model to load..");
+            setStatus("Found a text, Please wait for model to load, It will take awhile, Be patient..");
           }
           else if (data.state == "RUNNING") {
             setStatus("Model is loaded, Generating image, Please wait..");
@@ -226,15 +226,15 @@ const TextToImage = () => {
                 {imageData.map((item) => (
                   <ImageListItem
                     key={item.id}
-                    onClick={() => handleImageClick(item.image_data, item.mimeType)}
+                    onClick={() => handleImageClick(item.image_data, item.mime_type)}
                     style={{ cursor: 'pointer' }} // Makes the images clickable
                   >
                     <img
-                      src={`data:${item.mimeType};base64,${item.image_data}`}
+                      src={`data:${item.mime_type};base64,${item.image_data}`}
                       alt={item.image_name}
                       loading="lazy"
                     />
-                    <ImageListItemBar position="below" title={item.image_name} />
+                    <ImageListItemBar className='text-title-image' position="below" title={item.image_name} />
                   </ImageListItem>
                 ))}
               </ImageList>
