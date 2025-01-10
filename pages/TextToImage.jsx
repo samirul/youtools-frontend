@@ -13,6 +13,8 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useTheme, useMediaQuery } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {Grid2} from '@mui/material';
 
 
 const TextToImage = () => {
@@ -22,7 +24,7 @@ const TextToImage = () => {
   const [inputValue, setInputValue] = useState('');
   const [imageData, setImageData] = useState([])
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NDk4NTYxLCJpYXQiOjE3MzY0OTczNjEsImp0aSI6ImMwYzRjNGM1NGJhMDQ2MDdhNGQ3MzAyNDEwZDVhYmUyIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.yAhuVgFPqpsce4vgVZ6hYpwGK0t_c9Sw06FXoPOYL8s"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTA2NjkzLCJpYXQiOjE3MzY1MDU0OTMsImp0aSI6IjlkOTE1ZWU0NTQwMDQwN2FiZDdkOTg5MDI0NTEzMWFiIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.wbPzSNRPvm246gwyw2CIhOnL5xiwdh2Pvl3UM2atMDY"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -173,6 +175,21 @@ const TextToImage = () => {
     }
   };
 
+  const handleDeleteImage = async (e, id) =>{
+    e.stopPropagation();
+    try{
+      await axios.delete(`http://127.0.0.1:8000/api/delete_image/${id}/`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+    }catch(error){
+      console.log(error)
+    }
+  }
+
 
   return (
     <>
@@ -223,7 +240,7 @@ const TextToImage = () => {
               }}
             >
               <ImageList variant="masonry" cols={getColumns()} gap={8}>
-                {imageData.map((item) => (
+                { imageData ? imageData.map((item) => (
                   <ImageListItem
                     key={item.id}
                     onClick={() => handleImageClick(item.image_data, item.mime_type)}
@@ -234,9 +251,12 @@ const TextToImage = () => {
                       alt={item.image_name}
                       loading="lazy"
                     />
+                    <Grid2>
                     <ImageListItemBar className='text-title-image' position="below" title={item.image_name} />
+                    <DeleteIcon onClick={(e)=> handleDeleteImage(e, item.id)}/>
+                    </Grid2>
                   </ImageListItem>
-                ))}
+                )) : ""}
               </ImageList>
             </Box>
           </div>
