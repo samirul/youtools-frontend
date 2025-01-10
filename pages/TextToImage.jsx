@@ -25,7 +25,7 @@ const TextToImage = () => {
   const [imageData, setImageData] = useState([])
   const [deletedImage, setDeletedImage] = useState(false)
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTEwNTc2LCJpYXQiOjE3MzY1MDkzNzYsImp0aSI6IjcxNjYyZTgxYzMzMzRlZWJhY2NkMGJlNmQ2YzAyMGE2IiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.cc_Dv8_oITluOM0om01wEN3-bIaKA3f7OC82vWJV_A4"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTE0OTMxLCJpYXQiOjE3MzY1MTM3MzEsImp0aSI6IjA5ZjYxZTNiMWYyODQ2N2JiY2EzM2M0YjA4OTU4NGJkIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.lh-WhyXpnsNNftkyEjta-DwBJv7xma4R24i_Own24oE"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -256,7 +256,7 @@ const TextToImage = () => {
                       className='image-list'
                     />
                     <Grid2>
-                    <ImageListItemBar className='text-title-image' position="below" title={item.image_name} />
+                    <ImageListItemBar className='text-title-image' position="below" title={item.image_name.toUpperCase()} />
                     <DeleteIcon className='delete-btn' onClick={(e)=> handleDeleteImage(e, item.id)}/>
                     </Grid2>
                   </ImageListItem>
