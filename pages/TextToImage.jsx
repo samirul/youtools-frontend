@@ -204,11 +204,12 @@ const TextToImage = () => {
     <>
       <div className='text-to-image-container'>
       <Backdrop
-        sx={(theme) => ({color: '#45fcfa', zIndex: theme.zIndex.drawer + 1 })}
+        sx={(theme) => ({color: '#a3fff9', zIndex: theme.zIndex.drawer + 1 })}
         open={backdrop}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      { backdrop ? "" :
         <main className='grid-container-text'>
           <div className="text2image-loading">
             <Box sx={{ width: '100%' }}>
@@ -273,10 +274,11 @@ const TextToImage = () => {
                     </Grid2>
                   </ImageListItem>
                 )) : ""}
-              </ImageList>
+              </ImageList> 
             </Box>
           </div>
         </main>
+      }
       </div>
     </>
   )
