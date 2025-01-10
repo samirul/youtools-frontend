@@ -24,7 +24,7 @@ const TextToImage = () => {
   const [inputValue, setInputValue] = useState('');
   const [imageData, setImageData] = useState([])
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTA2NjkzLCJpYXQiOjE3MzY1MDU0OTMsImp0aSI6IjlkOTE1ZWU0NTQwMDQwN2FiZDdkOTg5MDI0NTEzMWFiIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.wbPzSNRPvm246gwyw2CIhOnL5xiwdh2Pvl3UM2atMDY"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTA4MTExLCJpYXQiOjE3MzY1MDY5MTEsImp0aSI6ImI0NDQyM2Q4ZmQwNTQ2MWE4YjVmZWY1YTg3ZDRmNWE5IiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.pMu5abOCwc4ao4jOwAkZ8CR0E-gNBnt-4Q7Utg62wUM"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -112,6 +112,7 @@ const TextToImage = () => {
     
         })
         setImageData(response.data.msg.data)
+        clearInterval(fetchImages);
       } catch(error){
         console.log(error)
         clearInterval(fetchImages);
@@ -120,7 +121,7 @@ const TextToImage = () => {
     return () => {
       clearInterval(fetchImages);
     };
-  },[])
+  },[progress])
 
 
   const handleInputChange = (e) => {
