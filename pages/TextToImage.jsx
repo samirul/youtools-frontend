@@ -23,8 +23,9 @@ const TextToImage = () => {
   const [status, setStatus] = useState("Waiting for text..");
   const [inputValue, setInputValue] = useState('');
   const [imageData, setImageData] = useState([])
+  const [deletedImage, setDeletedImage] = useState(false)
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTA4MTExLCJpYXQiOjE3MzY1MDY5MTEsImp0aSI6ImI0NDQyM2Q4ZmQwNTQ2MWE4YjVmZWY1YTg3ZDRmNWE5IiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.pMu5abOCwc4ao4jOwAkZ8CR0E-gNBnt-4Q7Utg62wUM"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTEwNTc2LCJpYXQiOjE3MzY1MDkzNzYsImp0aSI6IjcxNjYyZTgxYzMzMzRlZWJhY2NkMGJlNmQ2YzAyMGE2IiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.cc_Dv8_oITluOM0om01wEN3-bIaKA3f7OC82vWJV_A4"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -121,7 +122,7 @@ const TextToImage = () => {
     return () => {
       clearInterval(fetchImages);
     };
-  },[progress])
+  },[progress, deletedImage])
 
 
   const handleInputChange = (e) => {
@@ -186,6 +187,7 @@ const TextToImage = () => {
           'Authorization': `Bearer ${token}`,
         },
       })
+      setDeletedImage(true)
     }catch(error){
       console.log(error)
     }
@@ -254,7 +256,7 @@ const TextToImage = () => {
                     />
                     <Grid2>
                     <ImageListItemBar className='text-title-image' position="below" title={item.image_name} />
-                    <DeleteIcon onClick={(e)=> handleDeleteImage(e, item.id)}/>
+                    <DeleteIcon className='delete-btn' onClick={(e)=> handleDeleteImage(e, item.id)}/>
                     </Grid2>
                   </ImageListItem>
                 )) : ""}

@@ -58,3 +58,12 @@
 .text-title-image{
     color: #fff;
 }
+
+svg.MuiSvgIcon-root{
+  fill: #525151 !important; 
+}
+
+svg.MuiSvgIcon-root:hover{
+  fill: #fff !important;
+  transition: 0.2s; 
+}
