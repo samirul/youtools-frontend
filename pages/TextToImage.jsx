@@ -253,6 +253,7 @@ const TextToImage = () => {
                       src={`data:${item.mime_type};base64,${item.image_data}`}
                       alt={item.image_name}
                       loading="lazy"
+                      className='image-list'
                     />
                     <Grid2>
                     <ImageListItemBar className='text-title-image' position="below" title={item.image_name} />
