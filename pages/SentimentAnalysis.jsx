@@ -7,20 +7,14 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
 import TextField from '@mui/material/TextField';
-import {
-    Unstable_NumberInput as BaseNumberInput,
-    numberInputClasses,
-} from '@mui/base/Unstable_NumberInput';
+import {Unstable_NumberInput as BaseNumberInput,numberInputClasses,} from '@mui/base/Unstable_NumberInput';
 import Button from '@mui/material/Button';
-
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import {
-    generatePath,
-    useNavigate,
-} from "react-router-dom";
+import {generatePath,useNavigate} from "react-router-dom";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -58,7 +52,20 @@ const SentimentAnalysis = () => {
     const [status, setStatus] = useState("Waiting for an url..");
     const [inputValueURL, setInputValueURL] = useState('');
     const [inputValueAmount, setInputValueAmount] = useState(1);
-    const tokens = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2MzU3Mzg3LCJpYXQiOjE3MzYzNTYxODcsImp0aSI6IjkyMjg3NzE4N2U1MjQ2YWU4Y2E4MTQxNDZjMTAyMjc4IiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.AWyv1pmM2gp373QhI1nmnjT_K-GpcBSqLl23TB3-pM8"
+    const [backdrop, setBackDrop] = useState(false);
+    const tokens = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTk1Mjc3LCJpYXQiOjE3MzY1OTQwNzcsImp0aSI6ImEzZDA1Mjk1YWYyZjRkYTNhMjMxMGU0NjE2ZGUwMGU0IiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.25rb51RSdONLTXB6teYDq-D_FCcEer1ycttggAOvYSQ"
+
+    useEffect(() => {
+        const checkBackdropSession = sessionStorage.getItem('BackdropSession');
+        if (!checkBackdropSession) {
+            setBackDrop(true);
+            sessionStorage.setItem('BackdropSession', "true");
+            setTimeout(() => {
+                setBackDrop(false);
+            }, 2500)
+        }
+        sessionStorage.removeItem('BackdropSession')
+    }, [])
 
 
     useEffect(() => {
@@ -210,72 +217,80 @@ const SentimentAnalysis = () => {
     return (
         <>
             <div className='sentiment-analysis-container'>
-                <main className='grid-container-analysis'>
-                    <div className="sentiment-analysis-loading">
-                        <Box>
-                            <LinearProgressWithLabel value={progress} />
-                        </Box>
-                    </div>
-                    <p className='text-bar'>{status?  status : ''}</p>
-                    <div className="sentiment-analysis-Searchbar">
-                        <Box
-                            component="form"
-                            onSubmit={handleSubmit}
-                            noValidate
-                            autoComplete="off"
-                            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
-                        >
-                            <Box sx={{ width: '35ch' }}>
-                                <TextField
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    value={inputValueURL}
-                                    onChange={handleInputChangeURL}
-                                    placeholder="Enter your YouTube link"
-                                    fullWidth
-                                />
+                <Backdrop
+                    sx={(theme) => ({ color: '#a3fff9', zIndex: theme.zIndex.drawer + 1 })}
+                    open={backdrop}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+                {backdrop ? "" :
+                    <main className='grid-container-analysis'>
+                        <div className="sentiment-analysis-loading">
+                            <Box>
+                                <LinearProgressWithLabel value={progress} />
                             </Box>
-                            <Box sx={{ width: '35ch' }}>
-                                <NumberInput
-                                    aria-label="Demo number input"
-                                    min={1}
-                                    value={inputValueAmount}
-                                    onInputChange={handleInputChangeAmount2}
-                                    onChange={handleInputChangeAmount}
-                                    placeholder="Type a number…"
-                                    fullWidth
-                                />
-                            </Box>
-                            <Button
-                                disabled={inputValueAmount === 0 || inputValueURL === ''}
-                                className="button-grid"
-                                type="submit"
-                                variant="outlined"
-                                sx={{ mt: 2 }}
-                            >
-                                Analyze YouTube Comments
-                            </Button>
-                        </Box>
-                    </div>
-
-                    <div className="sentiment-analysis-Categories">
-                        <div className='cards-category-grid'>
-                            {categories.map((val, index) => (
-                                <Card sx={{ minWidth: 100 }} key={index} className='cards-category' onClick={() => handleProceed(val.id)}>
-                                    <CardContent>
-                                        <Typography variant="h7" component="div" className='category-cate'>
-                                            Category Name
-                                        </Typography>
-                                        <br />
-                                        <Typography variant="h5" className='category-title'>
-                                            {val.category_name}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            ))}
                         </div>
-                    </div>
-                </main>
+                        <p className='text-bar'>{status ? status : ''}</p>
+                        <div className="sentiment-analysis-Searchbar">
+                            <Box
+                                component="form"
+                                onSubmit={handleSubmit}
+                                noValidate
+                                autoComplete="off"
+                                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
+                            >
+                                <Box sx={{ width: '35ch' }}>
+                                    <TextField
+                                        id="outlined-basic"
+                                        variant="outlined"
+                                        value={inputValueURL}
+                                        onChange={handleInputChangeURL}
+                                        placeholder="Enter your YouTube link"
+                                        fullWidth
+                                    />
+                                </Box>
+                                <Box sx={{ width: '35ch' }}>
+                                    <NumberInput
+                                        aria-label="Demo number input"
+                                        min={1}
+                                        value={inputValueAmount}
+                                        onInputChange={handleInputChangeAmount2}
+                                        onChange={handleInputChangeAmount}
+                                        placeholder="Type a number…"
+                                        fullWidth
+                                    />
+                                </Box>
+                                <Button
+                                    disabled={inputValueAmount === 0 || inputValueURL === ''}
+                                    className="button-grid"
+                                    type="submit"
+                                    variant="outlined"
+                                    sx={{ mt: 2 }}
+                                >
+                                    Analyze YouTube Comments
+                                </Button>
+                            </Box>
+                        </div>
+
+                        <div className="sentiment-analysis-Categories">
+                            <div className='cards-category-grid'>
+                                {categories.map((val, index) => (
+                                    <Card sx={{ minWidth: 100 }} key={index} className='cards-category' onClick={() => handleProceed(val.id)}>
+                                        <CardContent>
+                                            <Typography variant="h7" component="div" className='category-cate'>
+                                                Category Name
+                                            </Typography>
+                                            <br />
+                                            <Typography variant="h5" className='category-title'>
+                                                {val.category_name}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        </div>
+                    </main>
+                }
             </div>
         </>
 
