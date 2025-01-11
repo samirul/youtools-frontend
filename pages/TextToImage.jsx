@@ -28,7 +28,7 @@ const TextToImage = () => {
   const [deletedImage, setDeletedImage] = useState(false);
   const [backdrop, setBackDrop] = useState(false);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTk3NDk4LCJpYXQiOjE3MzY1OTYyOTgsImp0aSI6IjQ4OGE0NTEzZTlkYzQ2MzE4MjA5YjRkNmMzYTY2ZjZlIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.vQ8xL_RYF9SDw-VaAqq-6aRMsXTFVqIoesfXCwI9oAY"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NjE4MzAwLCJpYXQiOjE3MzY2MTcxMDAsImp0aSI6IjkyMjFiMTI1NzkwODQ5MTM4ZjY2Zjg0MDBjMTA5MGEzIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.Gdm5gi9yGKk1XRq7WTBvC6f-b7bRZZHisYDoyRjBULM"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
