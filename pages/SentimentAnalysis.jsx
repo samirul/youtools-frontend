@@ -210,7 +210,7 @@ const SentimentAnalysis = () => {
 
     useEffect(() => {
         fetchCategory();
-    }, [])
+    }, [progress])
 
     const handleProceed = (id) => {
         id && navigate(generatePath("/category-data-result/:id/", { id }));
