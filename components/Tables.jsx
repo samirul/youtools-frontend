@@ -166,12 +166,10 @@ export default function Tables({category_id}) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/results/${category_id}/`, {
+      const response = await axios.get(`http://localhost:8000/api/results/${category_id}/`, { withCredentials: true }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          // 'Authorization': `Bearer ${token}`,
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NzA4MjAwLCJpYXQiOjE3MzY3MDcwMDAsImp0aSI6ImVkNzFiZWZmNDg5YjQwNTQ5ZDFiZWE4NjdkNWM0NjdkIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.sJflV-phWCKn8yuTprSPlZcbiBogMMBgtY-o06UBmfo`
         }
       });
       const availiableData = response.data.msg.data
@@ -212,12 +210,10 @@ export default function Tables({category_id}) {
     try {
       // Perform API call to delete selected rows
       await Promise.all(
-        selected.map((id) => axios.delete(`http://localhost:82/delete-comment/${id}/`, {
+        selected.map((id) => axios.delete(`http://localhost:8000/delete_result/${id}/`, { withCredentials: true }, {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // 'Authorization': `Bearer ${token}`,
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NzA4MjAwLCJpYXQiOjE3MzY3MDcwMDAsImp0aSI6ImVkNzFiZWZmNDg5YjQwNTQ5ZDFiZWE4NjdkNWM0NjdkIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.sJflV-phWCKn8yuTprSPlZcbiBogMMBgtY-o06UBmfo`
           }
         }))
       );

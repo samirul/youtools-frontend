@@ -74,11 +74,11 @@ const TextToImage = () => {
     if (taskid != null && taskid != undefined && taskid != 0) {
       const timer = setInterval(async () => {
         try {
-          const response = await axios.get(`http://localhost:8000/api/task-status-image/${taskid}/`, {
+          const response = await axios.get(`http://localhost:8000/api/task-status-image/${taskid}/`, { withCredentials: true }, {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`
+              // 'Authorization': `Bearer ${token}`
             }
           });
           const data = response.data.msg;
@@ -118,11 +118,11 @@ const TextToImage = () => {
   useEffect(()=>{
     const fetchImages = setInterval( async () =>{
       try{
-        const response = await axios.get("http://127.0.0.1:8000/api/images/", {
+        const response = await axios.get("http://localhost:8000/api/images/", { withCredentials: true }, {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            // 'Authorization': `Bearer ${token}`,
           },
     
         })
@@ -146,13 +146,13 @@ const TextToImage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const response = await axios.post("http://127.0.0.1:8000/api/generate_image/", {
+      const response = await axios.post("http://localhost:8000/api/generate_image/", {
         "text": inputValue,
-      }, {
+      }, { withCredentials: true }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          // 'Authorization': `Bearer ${token}`,
         },
   
       })
@@ -194,11 +194,11 @@ const TextToImage = () => {
   const handleDeleteImage = async (e, id) =>{
     e.stopPropagation();
     try{
-      await axios.delete(`http://127.0.0.1:8000/api/delete_image/${id}/`,{
+      await axios.delete(`http://localhost:8000/api/delete_image/${id}/`, { withCredentials: true },{
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          // 'Authorization': `Bearer ${token}`,
         },
       })
       setDeletedImage(true)

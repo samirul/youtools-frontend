@@ -74,7 +74,7 @@ const SentimentAnalysis = () => {
                 try {
                     if (taskid) {
                         
-                        const response = await axios.get(`http://127.0.0.1:8000/api/task-status/${taskid}/`, { withCredentials: true }, {
+                        const response = await axios.get(`http://localhost:8000/api/task-status/${taskid}/`, { withCredentials: true }, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -169,10 +169,10 @@ const SentimentAnalysis = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post("http://localhost:8000/api/fetch_and_analysis/", { withCredentials: true }, {
+        const response = await axios.post("http://localhost:8000/api/fetch_and_analysis/",{
             "url": inputValueURL,
             "max_len": inputValueAmount,
-        }, {
+        }, { withCredentials: true }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
