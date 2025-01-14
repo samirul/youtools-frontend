@@ -12,6 +12,7 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
+import Login from '../pages/Login';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/generate-image" exact element={<TextToImage />} />
           <Route path="/analysis-youtube-comments" exact element={<SentimentAnalysis />} />
           <Route path="/category-data-result/:category_id" exact element={<CategoriesAndDatas />} />
+          <Route path="/login" exact element={<Login />} />
         </Routes>
         <footer>
           <Footer />

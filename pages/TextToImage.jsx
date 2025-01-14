@@ -74,7 +74,7 @@ const TextToImage = () => {
     if (taskid != null && taskid != undefined && taskid != 0) {
       const timer = setInterval(async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/task-status-image/${taskid}/`, {
+          const response = await axios.get(`http://localhost:8000/api/task-status-image/${taskid}/`, {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',

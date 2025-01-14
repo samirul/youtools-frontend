@@ -53,7 +53,7 @@ const SentimentAnalysis = () => {
     const [inputValueURL, setInputValueURL] = useState('');
     const [inputValueAmount, setInputValueAmount] = useState(1);
     const [backdrop, setBackDrop] = useState(false);
-    const tokens = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NTk3NDk4LCJpYXQiOjE3MzY1OTYyOTgsImp0aSI6IjQ4OGE0NTEzZTlkYzQ2MzE4MjA5YjRkNmMzYTY2ZjZlIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.vQ8xL_RYF9SDw-VaAqq-6aRMsXTFVqIoesfXCwI9oAY"
+    // const tokens = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NzA4MjAwLCJpYXQiOjE3MzY3MDcwMDAsImp0aSI6ImVkNzFiZWZmNDg5YjQwNTQ5ZDFiZWE4NjdkNWM0NjdkIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.sJflV-phWCKn8yuTprSPlZcbiBogMMBgtY-o06UBmfo"
 
     useEffect(() => {
         const checkBackdropSession = sessionStorage.getItem('BackdropSession');
@@ -73,12 +73,13 @@ const SentimentAnalysis = () => {
             const timer = setInterval(async () => {
                 try {
                     if (taskid) {
-                        const response = await axios.get(`http://127.0.0.1:8000/api/task-status/${taskid}/`, {
+                        
+                        const response = await axios.get(`http://127.0.0.1:8000/api/task-status/${taskid}/`, { withCredentials: true }, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
                                 // 'Authorization': `Bearer ${token}`,
-                                'Authorization': `Bearer ${tokens}`
+                                // 'Authorization': `Bearer ${tokens}`
                             }
                         });
                         const data = response.data.msg;
@@ -168,7 +169,7 @@ const SentimentAnalysis = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post("http://127.0.0.1:8000/api/fetch_and_analysis/", {
+        const response = await axios.post("http://localhost:8000/api/fetch_and_analysis/", { withCredentials: true }, {
             "url": inputValueURL,
             "max_len": inputValueAmount,
         }, {
@@ -176,7 +177,7 @@ const SentimentAnalysis = () => {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 // 'Authorization': `Bearer ${token}`,
-                'Authorization': `Bearer ${tokens}`
+                // 'Authorization': `Bearer ${tokens}`
             },
 
         })
@@ -196,12 +197,12 @@ const SentimentAnalysis = () => {
     const [categories, setCategories] = useState([])
     const navigate = useNavigate();
     const fetchCategory = async () => {
-        const response = await axios.get('http://127.0.0.1:8000/api/categories/', {
+        const response = await axios.get('http://localhost:8000/api/categories/', { withCredentials: true }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 // 'Authorization': `Bearer ${token}`,
-                'Authorization': `Bearer ${tokens}`
+                // 'Authorization': `Bearer ${tokens}`
             }
         });
         setCategories(response.data.msg.data)

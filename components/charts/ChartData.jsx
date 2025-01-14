@@ -10,7 +10,7 @@ export const ChartData = (category_id) => {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           // 'Authorization': `Bearer ${token}`,
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2MDMxNjExLCJpYXQiOjE3MzYwMzA0MTEsImp0aSI6ImRkMjU2ZDNiMzIwMDQzMTJhOGVmYmY3NTY4MzdjYzEwIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.1wqItR5TAwSlTs3dsLltWb_DhbEhkoEp4NADijMWUr4`
+          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NzA4MjAwLCJpYXQiOjE3MzY3MDcwMDAsImp0aSI6ImVkNzFiZWZmNDg5YjQwNTQ5ZDFiZWE4NjdkNWM0NjdkIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.sJflV-phWCKn8yuTprSPlZcbiBogMMBgtY-o06UBmfo`
         }
       });
       const availiableData = response.data.msg.data

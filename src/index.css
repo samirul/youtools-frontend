@@ -4,6 +4,7 @@
 @import url('../css/TextToImage.css');
 @import url('../css/SentimentAnalysis.css');
 @import url('../css/CategoriesAndDatas.css');
+@import url('../css/login.css');
 
 body{
     margin: 0;
