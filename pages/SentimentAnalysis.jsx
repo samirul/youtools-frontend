@@ -138,6 +138,7 @@ const SentimentAnalysis = () => {
             "max_len": inputValueAmount,
         }, { withCredentials: true }, {
             headers: {
+                'X-CSRFToken': Cookies.get('csrftoken'),
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
@@ -185,6 +186,7 @@ const SentimentAnalysis = () => {
         try{
           await axios.delete(`http://localhost:8000/api/delete_category/${id}/`, { withCredentials: true },{
             headers: {
+              'X-CSRFToken': Cookies.get('csrftoken'),
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
