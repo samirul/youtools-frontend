@@ -28,7 +28,6 @@ const TextToImage = () => {
   const [deletedImage, setDeletedImage] = useState(false);
   const [backdrop, setBackDrop] = useState(false);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NjE4MzAwLCJpYXQiOjE3MzY2MTcxMDAsImp0aSI6IjkyMjFiMTI1NzkwODQ5MTM4ZjY2Zjg0MDBjMTA5MGEzIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.Gdm5gi9yGKk1XRq7WTBvC6f-b7bRZZHisYDoyRjBULM"
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -78,7 +77,6 @@ const TextToImage = () => {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-              // 'Authorization': `Bearer ${token}`
             }
           });
           const data = response.data.msg;
@@ -122,7 +120,6 @@ const TextToImage = () => {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // 'Authorization': `Bearer ${token}`,
           },
     
         })
@@ -152,7 +149,6 @@ const TextToImage = () => {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          // 'Authorization': `Bearer ${token}`,
         },
   
       })
@@ -198,7 +194,6 @@ const TextToImage = () => {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          // 'Authorization': `Bearer ${token}`,
         },
       })
       setDeletedImage(true)

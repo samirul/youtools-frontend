@@ -53,7 +53,6 @@ const SentimentAnalysis = () => {
     const [inputValueURL, setInputValueURL] = useState('');
     const [inputValueAmount, setInputValueAmount] = useState(1);
     const [backdrop, setBackDrop] = useState(false);
-    // const tokens = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2NzA4MjAwLCJpYXQiOjE3MzY3MDcwMDAsImp0aSI6ImVkNzFiZWZmNDg5YjQwNTQ5ZDFiZWE4NjdkNWM0NjdkIiwidXNlcl9pZCI6ImJmMWQ0MzViLTIyNWUtNGE1Yi1iMGQxLTA4NjQyNGNiNGYxZCJ9.sJflV-phWCKn8yuTprSPlZcbiBogMMBgtY-o06UBmfo"
 
     useEffect(() => {
         const checkBackdropSession = sessionStorage.getItem('BackdropSession');
@@ -78,8 +77,6 @@ const SentimentAnalysis = () => {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
-                                // 'Authorization': `Bearer ${token}`,
-                                // 'Authorization': `Bearer ${tokens}`
                             }
                         });
                         const data = response.data.msg;
@@ -176,8 +173,6 @@ const SentimentAnalysis = () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                // 'Authorization': `Bearer ${token}`,
-                // 'Authorization': `Bearer ${tokens}`
             },
 
         })
@@ -201,8 +196,6 @@ const SentimentAnalysis = () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                // 'Authorization': `Bearer ${token}`,
-                // 'Authorization': `Bearer ${tokens}`
             }
         });
         setCategories(response.data.msg.data)
