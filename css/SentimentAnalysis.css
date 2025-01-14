@@ -71,6 +71,14 @@
     font-weight: 800;
 }
 
+.number-field{
+    padding: 10px 10px;
+    width: 100%;
+    border: 1px solid #242424;
+    border-radius: 8px;
+
+}
+
 /* Responsive */
 
 @media screen and (max-width: 1040px){
