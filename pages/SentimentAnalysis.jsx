@@ -15,6 +15,7 @@ import CardContent from '@mui/material/CardContent';
 import {generatePath,useNavigate} from "react-router-dom";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -53,6 +54,8 @@ const SentimentAnalysis = () => {
     const [inputValueURL, setInputValueURL] = useState('');
     const [inputValueAmount, setInputValueAmount] = useState(1);
     const [backdrop, setBackDrop] = useState(false);
+    const [categories, setCategories] = useState([])
+    const [deleteCategory, setDeletedCategory] = useState(false);
 
     useEffect(() => {
         const checkBackdropSession = sessionStorage.getItem('BackdropSession');
@@ -189,21 +192,44 @@ const SentimentAnalysis = () => {
         </Box>
     );
 
-    const [categories, setCategories] = useState([])
     const navigate = useNavigate();
-    const fetchCategory = async () => {
-        const response = await axios.get('http://localhost:8000/api/categories/', { withCredentials: true }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        });
-        setCategories(response.data.msg.data)
-    }
+   
 
     useEffect(() => {
-        fetchCategory();
-    }, [progress])
+        const fetchCategory = setInterval(async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/categories/', { withCredentials: true }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    }
+                });
+                setCategories(response.data.msg.data)
+                clearInterval(fetchCategory);
+            } catch(error) {
+                console.log(error)
+                clearInterval(fetchCategory);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(fetchCategory);
+        };
+    }, [progress, deleteCategory])
+
+    const handleDeleteCategories = async (e, id) =>{
+        e.stopPropagation();
+        try{
+          await axios.delete(`http://localhost:8000/api/delete_category/${id}/`, { withCredentials: true },{
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+          })
+          setDeletedCategory(true)
+        }catch(error){
+          console.log(error)
+        }
+      }
 
     const handleProceed = (id) => {
         id && navigate(generatePath("/category-data-result/:id/", { id }));
@@ -278,6 +304,7 @@ const SentimentAnalysis = () => {
                                             <Typography variant="h5" className='category-title'>
                                                 {val.category_name}
                                             </Typography>
+                                            <DeleteIcon className='delete-btn' onClick={(e)=> handleDeleteCategories(e, val.id)}/>
                                         </CardContent>
                                     </Card>
                                 ))}
