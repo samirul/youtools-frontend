@@ -147,7 +147,7 @@ const SentimentAnalysis = () => {
     const handleInputChangeAmount = (event, newValue) => {
         try {
             if (newValue == null) throw "value shouldn't be null";
-            if (newValue !== null && isNaN(newValue) || newValue !== undefined) {
+            if (newValue !== null && !isNaN(newValue) && newValue !== undefined) {
                 setInputValueAmount(newValue);
             }
         } catch (err) {
@@ -159,7 +159,7 @@ const SentimentAnalysis = () => {
     const handleInputChangeAmount2 = (e) => {
         try {
             if (e.target.value == null) throw "value shouldn't be null";
-            if (e.target.value !== null && isNaN(e.target.value) || e.target.value !== undefined) {
+            if (e.target.value !== null && !isNaN(e.target.value) && e.target.value !== undefined) {
                 setInputValueAmount(Number(e.target.value));
             }
         } catch (err) {
