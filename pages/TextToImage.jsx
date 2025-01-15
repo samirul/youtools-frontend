@@ -25,8 +25,7 @@ const TextToImage = () => {
   const [status, setStatus] = useState("Waiting for text..");
   const [inputValue, setInputValue] = useState('');
   const [imageData, setImageData] = useState([]);
-  const [deletedImage, setDeletedImage] = useState(false);
-  const [backdrop, setBackDrop] = useState(false);
+  const [backdrop, setBackDrop] = useState('not deleted');
 
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -139,7 +138,7 @@ const TextToImage = () => {
     return () => {
       clearInterval(fetchImages);
     };
-  },[progress, deletedImage])
+  },[progress])
 
 
   const handleInputChange = (e) => {
@@ -207,7 +206,14 @@ const TextToImage = () => {
           'Accept': 'application/json',
         },
       })
-      setDeletedImage(true)
+      const response = await axios.get("http://localhost:8000/api/images/", { withCredentials: true }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+  
+      })
+      setImageData(response.data.msg.data)
     }catch(error){
       console.log(error)
       if (error.status == 401) {
