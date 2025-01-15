@@ -8,15 +8,22 @@ import axios from 'axios';
 
 export default function ProductCards() {
     const [products, setProducts] = useState([])
-    const fetchData = async () =>{
-        const response = await axios.get("http://localhost:8000/api/products/product-items/", { withCredentials: true }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-              }
-        })
-        const data = response.data;
-        setProducts(data.data)
+    const fetchData = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/api/products/product-items/", { withCredentials: true }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                }
+            })
+            const data = response.data;
+            setProducts(data.data)
+        } catch (error) {
+            if (error.status == 401) {
+                window.location.replace("/login")
+            }
+        }
+
     }
 
     console.log(products)

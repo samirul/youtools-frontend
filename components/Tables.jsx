@@ -184,6 +184,9 @@ export default function Tables({category_id}) {
       setRows(formattedData);
     } catch (error) {
       console.error('Error fetching data:', error);
+      if (error.status_code == 401) {
+        window.location.replace("/login")
+      }
     }
   };
 
@@ -224,6 +227,9 @@ export default function Tables({category_id}) {
       setSelected([]); // Clear the selected state
     } catch (error) {
       console.error('Error deleting rows:', error);
+      if (error.status_code == 401) {
+        window.location.replace("/login")
+      }
     }
   };
 

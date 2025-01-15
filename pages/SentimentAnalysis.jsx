@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import {generatePath,useNavigate} from "react-router-dom";
+import { generatePath, useNavigate } from "react-router-dom";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -74,7 +74,6 @@ const SentimentAnalysis = () => {
             const timer = setInterval(async () => {
                 try {
                     if (taskid) {
-                        
                         const response = await axios.get(`http://localhost:8000/api/task-status/${taskid}/`, { withCredentials: true }, {
                             headers: {
                                 'Content-Type': 'application/json',
@@ -107,6 +106,9 @@ const SentimentAnalysis = () => {
                 } catch (error) {
                     setStatus("Failed", error);
                     clearInterval(timer);
+                    if (error.status == 401) {
+                        window.location.replace("/login")
+                    }
                 }
             }, 1000);
             return () => {
@@ -119,7 +121,7 @@ const SentimentAnalysis = () => {
         setInputValueURL(e.target.value);
     };
 
-    
+
     const handleInputChangeAmount = (e) => {
         try {
             if (e.target.value == null) throw "value shouldn't be null";
@@ -133,19 +135,26 @@ const SentimentAnalysis = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post("http://localhost:8000/api/fetch_and_analysis/",{
-            "url": inputValueURL,
-            "max_len": inputValueAmount,
-        }, { withCredentials: true }, {
-            headers: {
-                'X-CSRFToken': Cookies.get('csrftoken'),
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
+        try {
+            const response = await axios.post("http://localhost:8000/api/fetch_and_analysis/", {
+                "url": inputValueURL,
+                "max_len": inputValueAmount,
+            }, { withCredentials: true }, {
+                headers: {
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
 
-        })
-        setTaskID(response.data.msg.result_id)
-        Cookies.set('task_id_sentiment', response.data.msg.result_id)
+            })
+            setTaskID(response.data.msg.result_id)
+            Cookies.set('task_id_sentiment', response.data.msg.result_id)
+        } catch (error) {
+            if (error.status == 401) {
+                window.location.replace("/login")
+            }
+        }
+
     };
 
     const bull = (
@@ -158,7 +167,7 @@ const SentimentAnalysis = () => {
     );
 
     const navigate = useNavigate();
-   
+
 
     useEffect(() => {
         const fetchCategory = setInterval(async () => {
@@ -171,9 +180,12 @@ const SentimentAnalysis = () => {
                 });
                 setCategories(response.data.msg.data)
                 clearInterval(fetchCategory);
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
                 clearInterval(fetchCategory);
+                if(error.status == 401){
+                    window.location.replace("/login")
+                }
             }
         }, 1000);
         return () => {
@@ -181,21 +193,24 @@ const SentimentAnalysis = () => {
         };
     }, [progress, deleteCategory])
 
-    const handleDeleteCategories = async (e, id) =>{
+    const handleDeleteCategories = async (e, id) => {
         e.stopPropagation();
-        try{
-          await axios.delete(`http://localhost:8000/api/delete_category/${id}/`, { withCredentials: true },{
-            headers: {
-              'X-CSRFToken': Cookies.get('csrftoken'),
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-          })
-          setDeletedCategory(true)
-        }catch(error){
-          console.log(error)
+        try {
+            await axios.delete(`http://localhost:8000/api/delete_category/${id}/`, { withCredentials: true }, {
+                headers: {
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+            })
+            setDeletedCategory(true)
+        } catch (error) {
+            console.log(error)
+            if(error.status == 401){
+                window.location.replace("/login")
+            }
         }
-      }
+    }
 
     const handleProceed = (id) => {
         id && navigate(generatePath("/category-data-result/:id/", { id }));
@@ -268,7 +283,7 @@ const SentimentAnalysis = () => {
                                             <Typography variant="h5" className='category-title'>
                                                 {val.category_name}
                                             </Typography>
-                                            <DeleteIcon className='delete-btn' onClick={(e)=> handleDeleteCategories(e, val.id)}/>
+                                            <DeleteIcon className='delete-btn' onClick={(e) => handleDeleteCategories(e, val.id)} />
                                         </CardContent>
                                     </Card>
                                 ))}

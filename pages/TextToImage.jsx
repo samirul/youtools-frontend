@@ -104,6 +104,9 @@ const TextToImage = () => {
         } catch (error) {
           setStatus("Failed", error);
           clearInterval(timer);
+          if (error.status == 401) {
+            window.location.replace("/login")
+          }
         }
       }, 1000);
       return () => {
@@ -128,6 +131,9 @@ const TextToImage = () => {
       } catch(error){
         console.log(error)
         clearInterval(fetchImages);
+        if (error.status == 401) {
+          window.location.replace("/login")
+        }
       }
     }, 1000);
     return () => {
@@ -158,6 +164,9 @@ const TextToImage = () => {
       console.log('Input Value:', inputValue);
     } catch(error){
       console.log(error)
+      if(error.status == 401){
+        window.location.replace("/login")
+    }
     }
   };
 
@@ -201,6 +210,9 @@ const TextToImage = () => {
       setDeletedImage(true)
     }catch(error){
       console.log(error)
+      if (error.status == 401) {
+        window.location.replace("/login")
+      }
     }
   }
 
