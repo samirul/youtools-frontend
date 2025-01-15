@@ -139,7 +139,7 @@ const TextToImage = () => {
     return () => {
       clearInterval(fetchImages);
     };
-  },[progress, deletedImage])
+  },[deletedImage, progress])
 
 
   const handleInputChange = (e) => {
