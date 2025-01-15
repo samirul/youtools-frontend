@@ -216,7 +216,7 @@ const TextToImage = () => {
     }
   }
 
-
+console.log(imageData.length)
   return (
     <>
       <div className='text-to-image-container'>
@@ -259,7 +259,7 @@ const TextToImage = () => {
               </Button>
             </Box>
           </div>
-          <div className="text2image-images">
+          <div className="text2image-images" style={{visibility: imageData.length > 0 ? 'visible' : 'hidden'}}>
             <Box
               sx={{
                 width: '100%',
