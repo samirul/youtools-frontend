@@ -148,12 +148,6 @@ export default function SignIn(props) {
 
   };
 
-  const handleCheckboxChange = (event) =>{
-    setRemember(event.target.checked)
-  }
-
-  console.log(remember)
-
   const validateInputs = () => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
@@ -240,10 +234,7 @@ export default function SignIn(props) {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" checked={remember} onChange={handleCheckboxChange}  />}
-              label="Remember me"
-            />
+            <br/>
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
               type="submit"
