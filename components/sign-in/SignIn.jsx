@@ -70,7 +70,6 @@ export default function SignIn(props) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const [remember, setRemember] = React.useState(false)
 
 
   const login = useGoogleLogin({
