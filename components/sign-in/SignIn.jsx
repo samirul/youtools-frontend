@@ -115,37 +115,41 @@ export default function SignIn(props) {
   };
 
   const handleSubmit = async (event) => {
-    // if (emailError || passwordError) {
-    event.preventDefault();
-    try {
-      const data = new FormData(event.currentTarget);
-      const payload = {
-        email: data.get('email'),
-        password: data.get('password'),
-      };
-      // const csrftoken = Cookies.get('csrftoken');
-      const res = await axios.post('http://localhost:8000/api/auth/login/', payload, { withCredentials: true }, {
-        headers: {
-          // 'X-CSRFToken': csrftoken,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
+    if (!emailError || !passwordError) {
+      event.preventDefault();
+      try {
+        const data = new FormData(event.currentTarget);
+        const payload = {
+          email: data.get('email'),
+          password: data.get('password'),
+        };
+        // const csrftoken = Cookies.get('csrftoken');
+        const res = await axios.post('http://localhost:8000/api/auth/login/', payload, { withCredentials: true }, {
+          headers: {
+            // 'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        })
+        if (res.status === 200 && res.data.access && res.data.user.pk && res.data.user.email) {
+          window.location.replace('/');
+          // Cookies.set('access', res.data.access, { expires: new Date(new Date().getTime() + 10 * 60 * 1000), path: '' })
+          // Cookies.set('refresh', res.data.refresh, { expires: 1, path: '' })
+          // if(remember){
+          //   sessionStorage.setItem('acccess', res.data.access, { expires: new Date(new Date().getTime() + 45 * 60 * 1000), path: '' })
+          //   sessionStorage.setItem('remember', true)
+          // }
+        } else {
+          window.location.replace('/login');
         }
-      })
-      if (res.status === 200 && res.data.access && res.data.user.pk && res.data.user.email) {
-        window.location.replace('/');
-        // Cookies.set('access', res.data.access, { expires: new Date(new Date().getTime() + 10 * 60 * 1000), path: '' })
-        // Cookies.set('refresh', res.data.refresh, { expires: 1, path: '' })
-        // if(remember){
-        //   sessionStorage.setItem('acccess', res.data.access, { expires: new Date(new Date().getTime() + 45 * 60 * 1000), path: '' })
-        //   sessionStorage.setItem('remember', true)
-        // }
-      } else {
-        window.location.replace('/login');
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
+      
+    } else {
+      setEmailError(true);
+      setPasswordError(true);
     }
-
   };
 
   const validateInputs = () => {
