@@ -13,6 +13,7 @@ import {
   Navigate
 } from "react-router-dom";
 import Login from '../pages/Login';
+import Register from '../pages/Register';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/analysis-youtube-comments" exact element={<SentimentAnalysis />} />
           <Route path="/category-data-result/:category_id" exact element={<CategoriesAndDatas />} />
           <Route path="/login" exact element={<Login />} />
+          <Route path="/register" exact element={<Register />} />
         </Routes>
         <footer>
           <Footer />
