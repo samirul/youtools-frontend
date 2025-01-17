@@ -149,6 +149,7 @@ export default function SignIn(props) {
         }
       } catch (error) {
         if(error.status == 400){
+          setsuccessBackedMessage('')
           seterrorBackendMessage(error.response.data.non_field_errors || error.response.data.email)
         }
         console.log(error)
@@ -195,7 +196,7 @@ export default function SignIn(props) {
         {/* <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} /> */}
         <Card variant="outlined">
         {errorBackendMessage != '' || successBackedMessage != '' ?
-            <Alert icon={successBackedMessage ?<CheckIcon fontSize="inherit" /> : "" } severity={errorBackendMessage ? "error" : successBackedMessage ? "success" : ""}>
+            <Alert icon={successBackedMessage ?<CheckIcon fontSize="inherit" /> : "" } severity={successBackedMessage ? "success" : "error"}>
               {errorBackendMessage}
               {successBackedMessage}
             </Alert> : ""
