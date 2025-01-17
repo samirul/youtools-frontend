@@ -19,6 +19,8 @@ import AppTheme from '../shared-theme/AppTheme';
 // import ColorModeSelect from '../../components/shared-theme/ColorModeSelect';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useGoogleLogin } from '@react-oauth/google';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -70,6 +72,8 @@ export default function SignIn(props) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [errorBackendMessage, seterrorBackendMessage] = React.useState([]);
+  const [successBackedMessage, setsuccessBackedMessage] = React.useState([]);
 
 
   const login = useGoogleLogin({
@@ -131,6 +135,8 @@ export default function SignIn(props) {
           }
         })
         if (res.status === 200 && res.data.access && res.data.user.pk && res.data.user.email) {
+          seterrorBackendMessage('')
+          setsuccessBackedMessage('Sucessfully logged in, redirecting.')
           window.location.replace('/');
           // Cookies.set('access', res.data.access, { expires: new Date(new Date().getTime() + 10 * 60 * 1000), path: '' })
           // Cookies.set('refresh', res.data.refresh, { expires: 1, path: '' })
@@ -142,6 +148,9 @@ export default function SignIn(props) {
           window.location.replace('/login');
         }
       } catch (error) {
+        if(error.status == 400){
+          seterrorBackendMessage(error.response.data.non_field_errors || error.response.data.email)
+        }
         console.log(error)
       }
       
@@ -166,9 +175,9 @@ export default function SignIn(props) {
       setEmailErrorMessage('');
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password.value || password.value.length < 8) {
       setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      setPasswordErrorMessage('Password must be at least 8 characters long.');
       isValid = false;
     } else {
       setPasswordError(false);
@@ -185,6 +194,12 @@ export default function SignIn(props) {
       <SignInContainer direction="column" justifyContent="space-between">
         {/* <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} /> */}
         <Card variant="outlined">
+        {errorBackendMessage != '' || successBackedMessage != '' ?
+            <Alert icon={successBackedMessage ?<CheckIcon fontSize="inherit" /> : "" } severity={errorBackendMessage ? "error" : successBackedMessage ? "success" : ""}>
+              {errorBackendMessage}
+              {successBackedMessage}
+            </Alert> : ""
+          }
           <Typography
             component="h1"
             variant="h4"
