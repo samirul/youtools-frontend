@@ -274,7 +274,6 @@ export default function SignIn(props) {
           </Box>
           <Divider>or</Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
             <Button
               fullWidth
               variant="outlined"
@@ -283,7 +282,6 @@ export default function SignIn(props) {
             >
               Sign in with Google
             </Button>
-            </GoogleOAuthProvider>
             <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <Link
