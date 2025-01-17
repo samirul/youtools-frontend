@@ -14,7 +14,10 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
-import { GoogleIcon} from './CustomIcons';
+import { GoogleIcon } from './CustomIcons';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
+import axios from 'axios';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -67,67 +70,89 @@ export default function SignUp(props) {
   const [confirmpasswordError, setConfirmPasswordError] = React.useState(false);
   const [confirmpasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [backendErrorMessage, setBackendErrorMessage] = React.useState([])
+  const [profilecreatedMessage, setprofilecreatedMessage] = React.useState('')
 
   const validateInputs = () => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const confirmpassword = document.getElementById('confirm_password');
-    const name = document.getElementById('name');
 
     let isValid = true;
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
+      setEmailErrorMessage(' Please enter a valid email address.');
       isValid = false;
     } else {
       setEmailError(false);
       setEmailErrorMessage('');
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password.value || password.value.length < 8) {
       setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      setPasswordErrorMessage(' Password must be at least 8 characters long.');
       isValid = false;
     } else {
       setPasswordError(false);
       setPasswordErrorMessage('');
     }
 
-    if(!confirmpassword || confirmpassword != password){
+    if (confirmpassword.value && password.value != confirmpassword.value) {
       setConfirmPasswordError(true);
-      setConfirmPasswordErrorMessage('Confirm password and password is not matching.')
+      setConfirmPasswordErrorMessage(' Confirm password and password is not matching.')
       isValid = false;
     } else {
       setConfirmPasswordError(false);
       setConfirmPasswordErrorMessage('');
     }
 
-    if (!name.value || name.value.length < 1) {
-      setNameError(true);
-      setNameErrorMessage('Name is required.');
-      isValid = false;
-    } else {
-      setNameError(false);
-      setNameErrorMessage('');
-    }
-
     return isValid;
   };
 
-  const handleSubmit = (event) => {
-    if (nameError || emailError || passwordError) {
+  const handleSubmit = async (event) => {
+    if (!nameError || !emailError || !passwordError || !confirmpasswordError) {
       event.preventDefault();
-      return;
+      try {
+        const data = new FormData(event.currentTarget);
+        const response = await axios.post("http://localhost:8000/api/registration/", {
+          "email": data.get('email'),
+          "password1": data.get('password'),
+          "password2": data.get('password2')
+        })
+        if (response.status == 201) {
+          setprofilecreatedMessage(response.data.detail)
+          setBackendErrorMessage('')
+        }
+      } catch (error) {
+        if (error.status == 400) {
+          if(error.response.data.email){
+            setBackendErrorMessage('')
+            setBackendErrorMessage(error.response.data.email);
+          }
+          if(error.response.data.password1){
+            setBackendErrorMessage('')
+            setBackendErrorMessage(error.response.data.password1);
+          }
+          if(error.response.data.non_field_errors){
+            setBackendErrorMessage('')
+            setBackendErrorMessage(error.response.data.non_field_errors);
+          }
+          setprofilecreatedMessage('')
+        } else if (error.status == 500) {
+          setBackendErrorMessage('')
+          setBackendErrorMessage("Email is already created.");
+          setprofilecreatedMessage('')
+        }
+        
+      }
+
+    } else {
+      setNameError(true);
+      setEmailError(true);
+      setPasswordError(true);
+      setConfirmPasswordError(true);
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   return (
@@ -136,6 +161,13 @@ export default function SignUp(props) {
       {/* <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} /> */}
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
+          {profilecreatedMessage != '' || backendErrorMessage != '' || confirmpasswordErrorMessage != ''  ?
+            <Alert icon={profilecreatedMessage ?<CheckIcon fontSize="inherit" /> : "" } severity={profilecreatedMessage ? "success" : "error"}>
+              {profilecreatedMessage}
+              {backendErrorMessage}
+              {confirmpasswordErrorMessage}
+            </Alert> : ""
+          }
           <Typography
             component="h1"
             variant="h4"
@@ -148,20 +180,6 @@ export default function SignUp(props) {
             onSubmit={handleSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
-            <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
-              <TextField
-                autoComplete="name"
-                name="name"
-                required
-                fullWidth
-                id="name"
-                placeholder="Jon Snow"
-                error={nameError}
-                helperText={nameErrorMessage}
-                color={nameError ? 'error' : 'primary'}
-              />
-            </FormControl>
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <TextField
@@ -213,7 +231,7 @@ export default function SignUp(props) {
               control={<Checkbox value="allowExtraEmails" color="primary" />}
               label="I want to receive updates via email."
             /> */}
-            <br/>
+            <br />
             <Button
               type="submit"
               fullWidth
