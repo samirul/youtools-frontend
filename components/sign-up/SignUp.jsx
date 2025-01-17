@@ -18,6 +18,7 @@ import { GoogleIcon } from './CustomIcons';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import axios from 'axios';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -35,7 +36,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   },
   ...theme.applyStyles('dark', {
     boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+      'hsla(128, 83.60%, 42.90%, 0.50) 0px 5px 15px 0px, hsla(39, 83.60%, 42.90%, 0.08) 0px 15px 35px -5px',
   }),
 }));
 
@@ -155,6 +156,37 @@ export default function SignUp(props) {
     }
   };
 
+  const login = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      console.log(codeResponse);
+      try {
+        axios.interceptors.request.use(
+          (config) => {
+            config.withCredentials = true
+            return config
+          },
+          (error) => {
+            return Promise.reject(error)
+          }
+        )
+        const response = await axios.post('http://localhost:8000/accounts/api/social/login/google/',{
+          'code': codeResponse.code
+        },{ withCredentials: true });
+        if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
+          window.location.replace('/');
+        } else {
+          window.location.replace('/login');
+        }
+      } catch (error) {
+        console.error('Authentication Error', error);
+      }
+    },
+    flow: 'auth-code',
+    onError: (error) => {
+      console.error('Login Failed:', error);
+    }
+  });
+
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
@@ -248,7 +280,7 @@ export default function SignUp(props) {
             <Button
               fullWidth
               variant="outlined"
-              onClick={() => alert('Sign up with Google')}
+              onClick={() => login()}
               startIcon={<GoogleIcon />}
             >
               Sign up with Google
@@ -256,7 +288,7 @@ export default function SignUp(props) {
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
+                href="/login"
                 variant="body2"
                 sx={{ alignSelf: 'center' }}
               >
