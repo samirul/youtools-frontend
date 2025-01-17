@@ -18,7 +18,7 @@ import { GoogleIcon } from './CustomIcons';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import axios from 'axios';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import {useGoogleLogin} from '@react-oauth/google';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect';
 
 const Card = styled(MuiCard)(({ theme }) => ({
