@@ -94,7 +94,7 @@ export default function SignIn(props) {
         },{ withCredentials: true });
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
           window.location.replace('/');
-          Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 5 * 60 * 1000), path: '' })
+          Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 6 * 60 * 1000), path: '' })
         } else {
           window.location.replace('/login');
         }
