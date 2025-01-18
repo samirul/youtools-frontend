@@ -25,7 +25,7 @@ const FrontNavbar = () => {
     <div>
       <Navbar expand="lg">
         <Container>
-          <Navbar.Brand href="#home" className='nav-title'>Youtools AI</Navbar.Brand>
+          <Navbar.Brand href="/" className='nav-title'>Youtools AI</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="justify-content-end flex-grow-1 pe-3" id='links'>
