@@ -94,8 +94,7 @@ export default function SignIn(props) {
         },{ withCredentials: true });
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
           window.location.replace('/');
-          // Cookies.set('access', response.data.access, { expires: new Date(new Date().getTime() + 5 * 60 * 1000), path: '' })
-          // Cookies.set('refresh', response.data.refresh, { expires: 1, path: '' })
+          Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 5 * 60 * 1000), path: '' })
         } else {
           window.location.replace('/login');
         }
@@ -138,12 +137,7 @@ export default function SignIn(props) {
           seterrorBackendMessage('')
           setsuccessBackedMessage('Sucessfully logged in, redirecting.')
           window.location.replace('/');
-          // Cookies.set('access', res.data.access, { expires: new Date(new Date().getTime() + 10 * 60 * 1000), path: '' })
-          // Cookies.set('refresh', res.data.refresh, { expires: 1, path: '' })
-          // if(remember){
-          //   sessionStorage.setItem('acccess', res.data.access, { expires: new Date(new Date().getTime() + 45 * 60 * 1000), path: '' })
-          //   sessionStorage.setItem('remember', true)
-          // }
+          Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 6 * 60 * 1000), path: '' })
         } else {
           window.location.replace('/login');
         }
