@@ -17,6 +17,8 @@ const FrontNavbar = () => {
       }
     }, { withCredentials: true });
     Cookies.remove('logged_in')
+    Cookies.remove('task_id_text2')
+    Cookies.remove('task_id_task_id_sentiment')
     window.location.replace("/")
   }
   return (
