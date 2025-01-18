@@ -14,8 +14,29 @@ import {
 } from "react-router-dom";
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  useEffect(() => {
+    const timeout = 1000 * 300
+    const fetchAccess = setInterval(async () => {
+      try{
+        await axios.post('http://localhost:8000/api/auth/token/refresh/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        },{ withCredentials: true });
+        console.log("executed!");
+      } catch(error){
+        console.log(error)
+      }
+    }, timeout);
+    return () => {
+      clearInterval(fetchAccess);
+    }
+  }, []);
   return (
     <>
       <Router>
