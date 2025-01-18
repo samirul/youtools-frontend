@@ -48,9 +48,9 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Front />} />
           {logged ? (<Route path="/login" exact element={<Navigate to="/" replace />} />) : 
-          (<Route path="/" exact element={<Navigate to="/login" replace />} />)}
+          (<Route path="/" exact element={<Front />} />)}
           {logged ? (<Route path="/register" exact element={<Navigate to="/" replace />} />) : 
-          (<Route path="/" exact element={<Navigate to="/register" replace />} />)}
+          (<Route path="/" exact element={<Front />} />)}
           <Route path="/products" exact element={<ProductFront />} />
           <Route path="/generate-image" exact element={<TextToImage />} />
           <Route path="/analysis-youtube-comments" exact element={<SentimentAnalysis />} />
