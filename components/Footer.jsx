@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Grid2, Typography, IconButton, Link, useTheme, useMediaQuery } from "@mui/material";
 import { styled } from "@mui/system";
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import axios from "axios";
 
 const StyledFooter = styled(Box)(({ theme }) => ({
   backgroundColor: "rgba(6, 87, 153, 0.08)",
@@ -39,95 +40,122 @@ const SocialIcon = styled(IconButton)(({ theme }) => ({
 }));
 
 const Footer = () => {
+  const [title, setTitle] = useState([])
+  const [links, setLink] = useState([])
+  const [sociallinks, setSocialLink] = useState([])
+  const [copyright, setCopyright] = useState([])
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const currentYear = new Date().getFullYear();
 
-  const quickLinks = [
-    { title: "About Us", url: "#" },
-    { title: "Contact", url: "#" },
-    { title: "Privacy Policy", url: "#" }
-  ];
+  const fetchFooterTitle = async () =>{
+    const response = await axios.get("http://localhost:8000/api/others/footer-title/",{
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    setTitle(response.data)
+  }
 
-  const navigationLinks = [
-    { title: "Home", url: "#" },
-    { title: "Services", url: "#" },
-    { title: "Blog", url: "#" },
-    { title: "Products", url: "#" }
-  ];
+  const fetchLinks = async () =>{
+    const response = await axios.get("http://localhost:8000/api/others/links/",{
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    setLink(response.data)
+  }
 
-  const socialLinks = [
-    { icon: <FaFacebook size={isMobile ? 20 : 24} />, url: "#", label: "Facebook" },
-    { icon: <FaTwitter size={isMobile ? 20 : 24} />, url: "#", label: "Twitter" },
-    { icon: <FaLinkedin size={isMobile ? 20 : 24} />, url: "#", label: "LinkedIn" },
-    { icon: <FaInstagram size={isMobile ? 20 : 24} />, url: "#", label: "Instagram" }
-  ];
+  const fetchsocialIconsLinks = async () =>{
+    const response = await axios.get("http://localhost:8000/api/others/social-links/",{
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    setSocialLink(response.data)
+  }
+
+  const fetchCopyright = async () =>{
+    const response = await axios.get("http://localhost:8000/api/others/copyright-text/",{
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    setCopyright(response.data)
+  }
+  
+  useEffect(()=>{
+    fetchFooterTitle();
+    fetchLinks();
+    fetchsocialIconsLinks();
+    fetchCopyright();
+  },[])
 
   return (
     <StyledFooter component="footer" className="footer-class">
       <Container maxWidth="lg">
         <Grid2 container spacing={isMobile ? 2 : 4}>
-          <Grid2 item xs={12} sm={6} md={3}>
-            <Typography variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
-              TechCorp
-            </Typography>
-            <Typography 
-              variant="body2" 
-              sx={{ 
-                mb: 2,
-                fontSize: isMobile ? "0.875rem" : "1rem"
-              }}
-            >
-              Innovative solutions for tomorrow"s challenges. Building the future through technology.
-            </Typography>
-          </Grid2>
-
-          <Grid2 item xs={6} sm={6} md={3}>
-            <Typography variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
-              Quick Links
-            </Typography>
-            {quickLinks.map((link, index) => (
-              <Box key={index} sx={{ mb: isMobile ? 0.5 : 1 }}>
-                <StyledLink href={link.url}>
-                  <Typography variant="body2">{link.title}</Typography>
-                </StyledLink>
-              </Box>
-            ))}
-          </Grid2>
-
-          <Grid2 item xs={6} sm={6} md={3}>
-            <Typography variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
-              Navigation
-            </Typography>
-            {navigationLinks.map((link, index) => (
-              <Box key={index} sx={{ mb: isMobile ? 0.5 : 1 }}>
-                <StyledLink href={link.url}>
-                  <Typography variant="body2">{link.title}</Typography>
-                </StyledLink>
-              </Box>
-            ))}
-          </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={3}>
-            <Typography variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
-              Connect With Us
-            </Typography>
-            <Box sx={{ mt: isMobile ? 1 : 2 }}>
-              {socialLinks.map((social, index) => (
-                <SocialIcon
-                  key={index}
-                  href={social.url}
-                  aria-label={social.label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {social.icon}
-                </SocialIcon>
+          {title.map((data, index) => (
+            <Grid2 key={index} item xs={12} sm={6} md={3}>
+              <Typography variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
+                {data.footer_title}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: 2,
+                  fontSize: isMobile ? "0.875rem" : "1rem"
+                }}
+              >
+                {data.footer_description}
+              </Typography>
+            </Grid2>
+          ))}
+          {links.map((data, index) => (
+            <Grid2 item xs={6} sm={6} md={3}>
+              <Typography key={index} variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
+                {data.category_name}
+              </Typography>
+              {data.name.map((item, index) => (
+                <Box key={index} sx={{ mb: isMobile ? 0.5 : 1 }}>
+                  <StyledLink href={item.links_url}>
+                    <Typography variant="body2">{item.links_title}</Typography>
+                  </StyledLink>
+                </Box>
               ))}
-            </Box>
-          </Grid2>
+            </Grid2>
+          ))}
+          {sociallinks.map((data, index)=>(
+            <Grid2 item xs={12} sm={6} md={3} key={index}>
+              <Typography variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
+                {data.social_category_name}
+              </Typography>
+              <Box sx={{ mt: isMobile ? 1 : 2 }} key={index}>
+                {data.social_data.map((social, index) => (
+                  <SocialIcon
+                    key={index}
+                    href={'https://' + social.social_url}
+                    aria-label={social.social_label}
+                    target="_blank"
+                    rel="social links"
+                  >
+                    {social.social_icon == 'FaFacebook' ? <FaFacebook size={isMobile ? 20 : 24} /> : 
+                    social.social_icon == 'FaTwitter' ? <FaTwitter size={isMobile ? 20 : 24} /> :
+                    social.social_icon == 'FaLinkedin' ? <FaLinkedin size={isMobile ? 20 : 24} />:
+                    social.social_icon == 'FaInstagram' ? <FaInstagram size={isMobile ? 20 : 24} />:
+                    ""}
+                  </SocialIcon>
+                ))}
+              </Box>
+            </Grid2>
+          ))}
         </Grid2>
+        
 
         <Box 
           sx={{ 
@@ -136,15 +164,18 @@ const Footer = () => {
             borderTop: "1px solid rgba(255, 255, 255, 0.1)" 
           }}
         >
+          {copyright.map((data, index)=>(
           <Typography 
             variant="body2" 
             align="center"
+            key={index}
             sx={{
               fontSize: isMobile ? "0.75rem" : "0.875rem"
             }}
           >
-            © {currentYear} TechCorp. All rights reserved.
+            © {currentYear} {data.copyright_footer}
           </Typography>
+          ))}
         </Box>
       </Container>
     </StyledFooter>
