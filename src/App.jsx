@@ -18,6 +18,7 @@ import Register from '../pages/Register';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Notfoundpage from '../pages/Notfoundpage';
 
 function App() {
   const [backdrop, setBackDrop] = useState(false);
@@ -76,6 +77,7 @@ function App() {
             <Route path="/category-data-result/:category_id" exact element={<CategoriesAndDatas />} />
             <Route path="/login" exact element={<Login />} />
             <Route path="/register" exact element={<Register />} />
+            <Route path="*" exact element={<Notfoundpage />} />
           </Routes>
         }
         {backdrop ? "" :

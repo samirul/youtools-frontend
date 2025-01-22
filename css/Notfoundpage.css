@@ -1,0 +1,14 @@
+.error-container{
+    text-align: center;
+    padding: 100px;
+    margin: 100px;
+}
+
+.error-page-number{
+    font-size: 150px;
+    color: #fff;
+}
+.error-page-text{
+    margin-top: 20px;
+    color: #fff;
+}
