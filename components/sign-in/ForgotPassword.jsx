@@ -8,27 +8,33 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-function ForgotPassword({ open, handleClose }) {
+function ForgotPassword({ open, handleClose, handleResetPassword }) {
+  const [email, setEmail] = React.useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    handleResetPassword(email);
+    setEmail('');
+    handleClose();
+  };
+
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       PaperProps={{
         component: 'form',
-        onSubmit: (event) => {
-          event.preventDefault();
-          handleClose();
-        },
+        onSubmit: handleSubmit,
         sx: { backgroundImage: 'none' },
       }}
     >
-      <DialogTitle>Reset password</DialogTitle>
+      <DialogTitle>Reset Password</DialogTitle>
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
       >
         <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a link to
-          reset your password.
+          Enter your account&apos;s email address, and we&apos;ll send you a link to reset your password.
         </DialogContentText>
         <OutlinedInput
           autoFocus
@@ -40,6 +46,8 @@ function ForgotPassword({ open, handleClose }) {
           placeholder="Email address"
           type="email"
           fullWidth
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
@@ -55,6 +63,8 @@ function ForgotPassword({ open, handleClose }) {
 ForgotPassword.propTypes = {
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  handleResetPassword: PropTypes.func.isRequired,
 };
+
 
 export default ForgotPassword;

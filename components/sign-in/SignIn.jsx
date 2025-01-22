@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
@@ -14,10 +12,8 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
-import { GoogleIcon} from './CustomIcons';
+import { GoogleIcon } from './CustomIcons';
 import AppTheme from '../shared-theme/AppTheme';
-// import ColorModeSelect from '../../components/shared-theme/ColorModeSelect';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useGoogleLogin } from '@react-oauth/google';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
@@ -78,20 +74,10 @@ export default function SignIn(props) {
 
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
-      console.log(codeResponse);
       try {
-        axios.interceptors.request.use(
-          (config) => {
-            config.withCredentials = true
-            return config
-          },
-          (error) => {
-            return Promise.reject(error)
-          }
-        )
-        const response = await axios.post('http://localhost:8000/accounts/api/social/login/google/',{
+        const response = await axios.post('http://localhost:8000/accounts/api/social/login/google/', {
           'code': codeResponse.code
-        },{ withCredentials: true });
+        }, { withCredentials: true });
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
           window.location.replace('/');
           Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 15 * 60 * 1000), path: '' })
@@ -125,10 +111,10 @@ export default function SignIn(props) {
           email: data.get('email'),
           password: data.get('password'),
         };
-        // const csrftoken = Cookies.get('csrftoken');
+        const csrftoken = Cookies.get('csrftoken');
         const res = await axios.post('http://localhost:8000/api/auth/login/', payload, { withCredentials: true }, {
           headers: {
-            // 'X-CSRFToken': csrftoken,
+            'X-CSRFToken': csrftoken,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           }
@@ -142,13 +128,12 @@ export default function SignIn(props) {
           window.location.replace('/login');
         }
       } catch (error) {
-        if(error.status == 400){
+        if (error.status == 400) {
           setsuccessBackedMessage('')
           seterrorBackendMessage(error.response.data.non_field_errors || error.response.data.email)
         }
-        console.log(error)
       }
-      
+
     } else {
       setEmailError(true);
       setPasswordError(true);
@@ -182,15 +167,32 @@ export default function SignIn(props) {
     return isValid;
   };
 
+  const resetSendPasswordEmail = async (email) => {
+    try{
+      const response = await axios.post("http://localhost:8000/api/auth/password/reset/", {email}, {
+        headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      })
+      seterrorBackendMessage('')
+      setsuccessBackedMessage(response.data.detail);
+    } catch(error){
+      if(error.status == 400){
+        setsuccessBackedMessage('')
+        seterrorBackendMessage('Something is wrong or please check your email address.')
+      }
+    }
+  }
+
   return (
     <AppTheme {...props}>
-    {/* <div> */}
       <CssBaseline enableColorScheme />
       <SignInContainer direction="column" justifyContent="space-between">
-        {/* <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} /> */}
         <Card variant="outlined">
-        {errorBackendMessage != '' || successBackedMessage != '' ?
-            <Alert icon={successBackedMessage ?<CheckIcon fontSize="inherit" /> : "" } severity={successBackedMessage ? "success" : "error"}>
+          {errorBackendMessage != '' || successBackedMessage != '' ?
+            <Alert icon={successBackedMessage ? <CheckIcon fontSize="inherit" /> : ""} severity={successBackedMessage ? "success" : "error"}>
               {errorBackendMessage}
               {successBackedMessage}
             </Alert> : ""
@@ -198,7 +200,7 @@ export default function SignIn(props) {
           <Typography
             component="h1"
             variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)', textAlign: 'center'}}
+            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)', textAlign: 'center' }}
           >
             Youtools
           </Typography>
@@ -240,7 +242,6 @@ export default function SignIn(props) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                autoFocus
                 required
                 fullWidth
                 variant="outlined"
@@ -248,7 +249,6 @@ export default function SignIn(props) {
               />
             </FormControl>
             <br/>
-            <ForgotPassword open={open} handleClose={handleClose} />
             <Button
               type="submit"
               fullWidth
@@ -267,6 +267,16 @@ export default function SignIn(props) {
               Forgot your password?
             </Link>
           </Box>
+
+          <ForgotPassword
+            open={open}
+            handleClose={handleClose}
+            handleResetPassword={(email) => {
+              resetSendPasswordEmail(email);
+            }}
+          />
+
+
           <Divider>or</Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Button
@@ -290,7 +300,6 @@ export default function SignIn(props) {
           </Box>
         </Card>
       </SignInContainer>
-      {/* </div> */}
     </AppTheme>
   );
 }
