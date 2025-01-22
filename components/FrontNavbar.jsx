@@ -30,7 +30,7 @@ const FrontNavbar = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="justify-content-end flex-grow-1 pe-3" id='links'>
               <Nav.Link href="/products">Products</Nav.Link>
-              {!logged ? <Nav.Link href="/login">Login/Register</Nav.Link> : 
+              {!logged ? <Nav.Link href="/login">Login</Nav.Link> : 
               <Nav.Link type="button" onClick={handlelogout}>Logout</Nav.Link>}
             </Nav>
           </Navbar.Collapse>
