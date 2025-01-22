@@ -8,7 +8,6 @@ import CategoriesAndDatas from '../pages/CategoriesAndDatas';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
-  // HashRouter as Router,
   BrowserRouter as Router,
   Routes,
   Route,
@@ -40,14 +39,13 @@ function App() {
         try {
           await axios.post('http://localhost:8000/api/auth/token/refresh/', {
             headers: {
+              'X-CSRFToken': Cookies.get('csrftoken'),
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             }
           }, { withCredentials: true });
           Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 15 * 60 * 1000), path: '' })
-        } catch (error) {
-          console.log(error)
-        }
+        } catch (error) {}
       }, timeout);
       return () => {
         clearInterval(fetchAccess);
