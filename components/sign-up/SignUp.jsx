@@ -179,15 +179,17 @@ export default function SignUp(props) {
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
           window.location.replace('/products');
         } else {
-          window.location.replace('/login');
+          window.location.replace('/register');
         }
       } catch (error) {
-        console.error('Authentication Error', error);
+        window.location.replace('/register');
       }
     },
     flow: 'auth-code',
     onError: (error) => {
-      console.error('Login Failed:', error);
+      if(error){
+        window.location.replace('/register');
+      }
     }
   });
 
