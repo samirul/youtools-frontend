@@ -16,9 +16,7 @@ export const ChartData = (category_id) => {
         main_result: item.main_result,
       }));
       setData(formattedData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+    } catch (error) {}
   };
 
   useEffect(()=>{
