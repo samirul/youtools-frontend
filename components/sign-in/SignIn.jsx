@@ -91,7 +91,7 @@ export default function SignIn(props) {
     flow: 'auth-code',
     onError: (error) => {
       if(error){
-      window.location.replace('/login');
+        window.location.replace('/login');
       }
     }
   });
