@@ -64,7 +64,6 @@ const TextToImage = () => {
             }
           });
           const data = response.data.msg;
-          console.log(data)
           setProgress(data.progress)
           if (data.state == "PENDING") {
             setStatus("Found a text, Please wait for model to load, It will take awhile, Be patient..");
@@ -113,7 +112,6 @@ const TextToImage = () => {
         setImageData(response.data.msg.data)
         clearInterval(fetchImages);
       } catch (error) {
-        console.log(error)
         clearInterval(fetchImages);
         if (error.status == 401) {
           window.location.replace("/login")
@@ -145,9 +143,7 @@ const TextToImage = () => {
       })
       setTaskID(response.data.msg.result_id)
       Cookies.set('task_id_text2', response.data.msg.result_id)
-      console.log('Input Value:', inputValue);
     } catch (error) {
-      console.log(error)
       if (error.status == 401) {
         window.location.replace("/login")
       }
@@ -200,14 +196,12 @@ const TextToImage = () => {
       })
       setImageData(response.data.msg.data)
     } catch (error) {
-      console.log(error)
       if (error.status == 401) {
         window.location.replace("/login")
       }
     }
   }
 
-  console.log(imageData.length)
   return (
     <>
       <div className='text-to-image-container'>
