@@ -12,8 +12,6 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { generatePath, useNavigate } from "react-router-dom";
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
@@ -52,21 +50,8 @@ const SentimentAnalysis = () => {
     const [status, setStatus] = useState("Waiting for an url..");
     const [inputValueURL, setInputValueURL] = useState('');
     const [inputValueAmount, setInputValueAmount] = useState(1);
-    const [backdrop, setBackDrop] = useState(false);
     const [categories, setCategories] = useState([])
     const [deleteCategory, setDeletedCategory] = useState(false);
-
-    useEffect(() => {
-        const checkBackdropSession = sessionStorage.getItem('BackdropSession');
-        if (!checkBackdropSession) {
-            setBackDrop(true);
-            sessionStorage.setItem('BackdropSession', "true");
-            setTimeout(() => {
-                setBackDrop(false);
-            }, 2500)
-        }
-        sessionStorage.removeItem('BackdropSession')
-    }, [])
 
 
     useEffect(() => {
@@ -183,7 +168,7 @@ const SentimentAnalysis = () => {
             } catch (error) {
                 console.log(error)
                 clearInterval(fetchCategory);
-                if(error.status == 401){
+                if (error.status == 401) {
                     window.location.replace("/login")
                 }
             }
@@ -206,7 +191,7 @@ const SentimentAnalysis = () => {
             setDeletedCategory(true)
         } catch (error) {
             console.log(error)
-            if(error.status == 401){
+            if (error.status == 401) {
                 window.location.replace("/login")
             }
         }
@@ -218,79 +203,71 @@ const SentimentAnalysis = () => {
     return (
         <>
             <div className='sentiment-analysis-container'>
-                <Backdrop
-                    sx={(theme) => ({ color: '#a3fff9', zIndex: theme.zIndex.drawer + 1 })}
-                    open={backdrop}
-                >
-                    <CircularProgress color="inherit" />
-                </Backdrop>
-                {backdrop ? "" :
-                    <main className='grid-container-analysis'>
-                        <div className="sentiment-analysis-loading">
-                            <Box>
-                                <LinearProgressWithLabel value={progress} />
-                            </Box>
-                        </div>
-                        <p className='text-bar'>{status ? status : ''}</p>
-                        <div className="sentiment-analysis-Searchbar">
-                            <Box
-                                component="form"
-                                onSubmit={handleSubmit}
-                                noValidate
-                                autoComplete="off"
-                                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
-                            >
-                                <Box sx={{ width: '35ch' }}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        value={inputValueURL}
-                                        onChange={handleInputChangeURL}
-                                        placeholder="Enter your YouTube link"
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box sx={{ width: '35ch' }}>
-                                    <input
-                                        className='number-field'
-                                        type='tel'
-                                        value={inputValueAmount}
-                                        onChange={handleInputChangeAmount}
-                                        pattern="^-?[0-9]\d*\.?\d*$"
-                                    />
-                                </Box>
-                                <Button
-                                    disabled={inputValueAmount === 0 || inputValueURL === ''}
-                                    className="button-grid"
-                                    type="submit"
+                <main className='grid-container-analysis'>
+                    <div className="sentiment-analysis-loading">
+                        <Box>
+                            <LinearProgressWithLabel value={progress} />
+                        </Box>
+                    </div>
+                    <p className='text-bar'>{status ? status : ''}</p>
+                    <div className="sentiment-analysis-Searchbar">
+                        <Box
+                            component="form"
+                            onSubmit={handleSubmit}
+                            noValidate
+                            autoComplete="off"
+                            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
+                        >
+                            <Box sx={{ width: '35ch' }}>
+                                <TextField
+                                    id="outlined-basic"
                                     variant="outlined"
-                                    sx={{ mt: 2 }}
-                                >
-                                    Analyze YouTube Comments
-                                </Button>
+                                    value={inputValueURL}
+                                    onChange={handleInputChangeURL}
+                                    placeholder="Enter your YouTube link"
+                                    fullWidth
+                                />
                             </Box>
-                        </div>
+                            <Box sx={{ width: '35ch' }}>
+                                <input
+                                    className='number-field'
+                                    type='tel'
+                                    value={inputValueAmount}
+                                    onChange={handleInputChangeAmount}
+                                    pattern="^-?[0-9]\d*\.?\d*$"
+                                />
+                            </Box>
+                            <Button
+                                disabled={inputValueAmount === 0 || inputValueURL === ''}
+                                className="button-grid"
+                                type="submit"
+                                variant="outlined"
+                                sx={{ mt: 2 }}
+                            >
+                                Analyze YouTube Comments
+                            </Button>
+                        </Box>
+                    </div>
 
-                        <div className="sentiment-analysis-Categories">
-                            <div className='cards-category-grid'>
-                                {categories.map((val, index) => (
-                                    <Card sx={{ minWidth: 100 }} key={index} className='cards-category' onClick={() => handleProceed(val.id)}>
-                                        <CardContent>
-                                            <Typography variant="h7" component="div" className='category-cate'>
-                                                Category Name
-                                            </Typography>
-                                            <br />
-                                            <Typography variant="h5" className='category-title'>
-                                                {val.category_name}
-                                            </Typography>
-                                            <DeleteIcon className='delete-btn' onClick={(e) => handleDeleteCategories(e, val.id)} />
-                                        </CardContent>
-                                    </Card>
-                                ))}
-                            </div>
+                    <div className="sentiment-analysis-Categories">
+                        <div className='cards-category-grid'>
+                            {categories.map((val, index) => (
+                                <Card sx={{ minWidth: 100 }} key={index} className='cards-category' onClick={() => handleProceed(val.id)}>
+                                    <CardContent>
+                                        <Typography variant="h7" component="div" className='category-cate'>
+                                            Category Name
+                                        </Typography>
+                                        <br />
+                                        <Typography variant="h5" className='category-title'>
+                                            {val.category_name}
+                                        </Typography>
+                                        <DeleteIcon className='delete-btn' onClick={(e) => handleDeleteCategories(e, val.id)} />
+                                    </CardContent>
+                                </Card>
+                            ))}
                         </div>
-                    </main>
-                }
+                    </div>
+                </main>
             </div>
         </>
 
