@@ -117,7 +117,7 @@ const Footer = () => {
             </Grid2>
           ))}
           {links.map((data, index) => (
-            <Grid2 item xs={6} sm={6} md={3}>
+            <Grid2 item xs={6} sm={6} md={3} key={index}>
               <Typography key={index} variant={isMobile ? "subtitle1" : "h6"} gutterBottom>
                 {data.category_name}
               </Typography>
@@ -155,8 +155,6 @@ const Footer = () => {
             </Grid2>
           ))}
         </Grid2>
-        
-
         <Box 
           sx={{ 
             mt: isMobile ? 2 : 4, 
