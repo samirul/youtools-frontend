@@ -14,9 +14,7 @@ import { useTheme, useMediaQuery } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Grid2} from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Grid2 } from '@mui/material';
 
 
 const TextToImage = () => {
@@ -25,7 +23,6 @@ const TextToImage = () => {
   const [status, setStatus] = useState("Waiting for text..");
   const [inputValue, setInputValue] = useState('');
   const [imageData, setImageData] = useState([]);
-  const [backdrop, setBackDrop] = useState('not deleted');
 
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -55,18 +52,6 @@ const TextToImage = () => {
   LinearProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
   };
-
-  useEffect(()=>{
-    const checkBackdropSession = sessionStorage.getItem('BackdropSession');
-    if(!checkBackdropSession){
-      setBackDrop(true);
-      sessionStorage.setItem('BackdropSession', "true");
-      setTimeout(()=>{
-        setBackDrop(false);
-      }, 2500)
-    }
-    sessionStorage.removeItem('BackdropSession')
-  },[])
 
   useEffect(() => {
     if (taskid != null && taskid != undefined && taskid != 0) {
@@ -115,19 +100,19 @@ const TextToImage = () => {
   }, [taskid, progress]);
 
 
-  useEffect(()=>{
-    const fetchImages = setInterval( async () =>{
-      try{
+  useEffect(() => {
+    const fetchImages = setInterval(async () => {
+      try {
         const response = await axios.get("http://localhost:8000/api/images/", { withCredentials: true }, {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           },
-    
+
         })
         setImageData(response.data.msg.data)
         clearInterval(fetchImages);
-      } catch(error){
+      } catch (error) {
         console.log(error)
         clearInterval(fetchImages);
         if (error.status == 401) {
@@ -138,7 +123,7 @@ const TextToImage = () => {
     return () => {
       clearInterval(fetchImages);
     };
-  },[progress])
+  }, [progress])
 
 
   const handleInputChange = (e) => {
@@ -147,7 +132,7 @@ const TextToImage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       const response = await axios.post("http://localhost:8000/api/generate_image/", {
         "text": inputValue,
       }, { withCredentials: true }, {
@@ -156,16 +141,16 @@ const TextToImage = () => {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-  
+
       })
       setTaskID(response.data.msg.result_id)
       Cookies.set('task_id_text2', response.data.msg.result_id)
       console.log('Input Value:', inputValue);
-    } catch(error){
+    } catch (error) {
       console.log(error)
-      if(error.status == 401){
+      if (error.status == 401) {
         window.location.replace("/login")
-    }
+      }
     }
   };
 
@@ -196,10 +181,10 @@ const TextToImage = () => {
     }
   };
 
-  const handleDeleteImage = async (e, id) =>{
+  const handleDeleteImage = async (e, id) => {
     e.stopPropagation();
-    try{
-      await axios.delete(`http://localhost:8000/api/delete_image/${id}/`, { withCredentials: true },{
+    try {
+      await axios.delete(`http://localhost:8000/api/delete_image/${id}/`, { withCredentials: true }, {
         headers: {
           'X-CSRFToken': Cookies.get('csrftoken'),
           'Content-Type': 'application/json',
@@ -211,10 +196,10 @@ const TextToImage = () => {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-  
+
       })
       setImageData(response.data.msg.data)
-    }catch(error){
+    } catch (error) {
       console.log(error)
       if (error.status == 401) {
         window.location.replace("/login")
@@ -222,24 +207,17 @@ const TextToImage = () => {
     }
   }
 
-console.log(imageData.length)
+  console.log(imageData.length)
   return (
     <>
       <div className='text-to-image-container'>
-      <Backdrop
-        sx={(theme) => ({color: '#a3fff9', zIndex: theme.zIndex.drawer + 1 })}
-        open={backdrop}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      { backdrop ? "" :
         <main className='grid-container-text'>
           <div className="text2image-loading">
             <Box sx={{ width: '100%' }}>
               <LinearProgressWithLabel value={progress} />
             </Box>
           </div>
-          <p className='text-bar'>{status?  status : ''}</p>
+          <p className='text-bar'>{status ? status : ''}</p>
           <div className="text2image-inputbar">
             <Box
               component="form"
@@ -265,7 +243,7 @@ console.log(imageData.length)
               </Button>
             </Box>
           </div>
-          <div className="text2image-images" style={{visibility: imageData.length > 0 ? 'visible' : 'hidden'}}>
+          <div className="text2image-images" style={{ visibility: imageData.length > 0 ? 'visible' : 'hidden' }}>
             <Box
               sx={{
                 width: '100%',
@@ -279,7 +257,7 @@ console.log(imageData.length)
               }}
             >
               <ImageList variant="masonry" cols={getColumns()} gap={8}>
-                { imageData ? imageData.map((item) => (
+                {imageData ? imageData.map((item) => (
                   <ImageListItem
                     key={item.id}
                     onClick={() => handleImageClick(item.image_data, item.mime_type)}
@@ -292,16 +270,15 @@ console.log(imageData.length)
                       className='image-list'
                     />
                     <Grid2>
-                    <ImageListItemBar className='text-title-image' position="below" title={item.image_name.toUpperCase()} />
-                    <DeleteIcon className='delete-btn' onClick={(e)=> handleDeleteImage(e, item.id)}/>
+                      <ImageListItemBar className='text-title-image' position="below" title={item.image_name.toUpperCase()} />
+                      <DeleteIcon className='delete-btn' onClick={(e) => handleDeleteImage(e, item.id)} />
                     </Grid2>
                   </ImageListItem>
                 )) : ""}
-              </ImageList> 
+              </ImageList>
             </Box>
           </div>
         </main>
-      }
       </div>
     </>
   )
