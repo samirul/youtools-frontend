@@ -22,6 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -214,6 +215,7 @@ export default function Tables({category_id}) {
       await Promise.all(
         selected.map((id) => axios.delete(`http://localhost:8000/delete_result/${id}/`, { withCredentials: true }, {
           headers: {
+            'X-CSRFToken': Cookies.get('csrftoken'),
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           }
