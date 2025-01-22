@@ -66,7 +66,6 @@ const SentimentAnalysis = () => {
                             }
                         });
                         const data = response.data.msg;
-                        console.log(data)
                         setProgress(data.progress)
                         if (data.state == "PENDING") {
                             setStatus("Found an url, Please wait..");
@@ -166,7 +165,6 @@ const SentimentAnalysis = () => {
                 setCategories(response.data.msg.data)
                 clearInterval(fetchCategory);
             } catch (error) {
-                console.log(error)
                 clearInterval(fetchCategory);
                 if (error.status == 401) {
                     window.location.replace("/login")
@@ -190,7 +188,6 @@ const SentimentAnalysis = () => {
             })
             setDeletedCategory(true)
         } catch (error) {
-            console.log(error)
             if (error.status == 401) {
                 window.location.replace("/login")
             }
