@@ -23,11 +23,7 @@ export default function ProductCards() {
                 window.location.replace("/login")
             }
         }
-
     }
-
-    console.log(products)
-
     useEffect(()=>{
         fetchData();
     },[])
