@@ -177,7 +177,7 @@ export default function SignUp(props) {
           'code': codeResponse.code
         },{ withCredentials: true });
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
-          window.location.replace('/');
+          window.location.replace('/products');
         } else {
           window.location.replace('/login');
         }
