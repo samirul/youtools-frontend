@@ -79,7 +79,7 @@ export default function SignIn(props) {
           'code': codeResponse.code
         }, { withCredentials: true });
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
-          window.location.replace('/');
+          window.location.replace('/products');
           Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 15 * 60 * 1000), path: '' })
         } else {
           window.location.replace('/login');
