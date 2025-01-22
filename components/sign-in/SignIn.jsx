@@ -85,12 +85,14 @@ export default function SignIn(props) {
           window.location.replace('/login');
         }
       } catch (error) {
-        console.error('Authentication Error', error);
+        window.location.replace('/login');
       }
     },
     flow: 'auth-code',
     onError: (error) => {
-      console.error('Login Failed:', error);
+      if(error){
+      window.location.replace('/login');
+      }
     }
   });
 
@@ -122,7 +124,7 @@ export default function SignIn(props) {
         if (res.status === 200 && res.data.access && res.data.user.pk && res.data.user.email) {
           seterrorBackendMessage('')
           setsuccessBackedMessage('Sucessfully logged in, redirecting.')
-          window.location.replace('/');
+          window.location.replace('/products');
           Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 15 * 60 * 1000), path: '' })
         } else {
           window.location.replace('/login');
