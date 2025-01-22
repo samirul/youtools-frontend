@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
@@ -19,7 +17,7 @@ import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import axios from 'axios';
 import {useGoogleLogin} from '@react-oauth/google';
-// import ColorModeSelect from '../shared-theme/ColorModeSelect';
+import Cookies from 'js-cookie';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -115,11 +113,18 @@ export default function SignUp(props) {
     if (!nameError || !emailError || !passwordError || !confirmpasswordError) {
       event.preventDefault();
       try {
+        const csrftoken = Cookies.get('csrftoken');
         const data = new FormData(event.currentTarget);
         const response = await axios.post("http://localhost:8000/api/registration/", {
           "email": data.get('email'),
           "password1": data.get('password'),
-          "password2": data.get('password2')
+          "password2": data.get('password2'),
+
+          headers: {
+            'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
         })
         if (response.status == 201) {
           setprofilecreatedMessage(response.data.detail)
@@ -158,7 +163,6 @@ export default function SignUp(props) {
 
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
-      console.log(codeResponse);
       try {
         axios.interceptors.request.use(
           (config) => {
@@ -190,7 +194,6 @@ export default function SignUp(props) {
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
-      {/* <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} /> */}
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           {profilecreatedMessage != '' || backendErrorMessage != '' || confirmpasswordErrorMessage != ''  ?
@@ -259,10 +262,6 @@ export default function SignUp(props) {
                 color={confirmpasswordError ? 'error' : 'primary'}
               />
             </FormControl>
-            {/* <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive updates via email."
-            /> */}
             <br />
             <Button
               type="submit"
