@@ -167,7 +167,7 @@ export default function Tables({category_id}) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/results/${category_id}/`, { withCredentials: true }, {
+      const response = await axios.get(`http://localhost:80/api/results/${category_id}/`, { withCredentials: true }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -213,7 +213,7 @@ export default function Tables({category_id}) {
     try {
       // Perform API call to delete selected rows
       await Promise.all(
-        selected.map((id) => axios.delete(`http://localhost:8000/delete_result/${id}/`, { withCredentials: true }, {
+        selected.map((id) => axios.delete(`http://localhost:80/delete_result/${id}/`, { withCredentials: true }, {
           headers: {
             'X-CSRFToken': Cookies.get('csrftoken'),
             'Content-Type': 'application/json',

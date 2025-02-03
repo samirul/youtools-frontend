@@ -9,7 +9,7 @@ import axios from 'axios';
 const Cards = () => {
     const [card, setCards] = useState([])
     const fetchCards = async () => {
-        const response = await axios.get("http://localhost:8000/api/products/product-items/front/", {
+        const response = await axios.get("http://localhost:80/api/products/product-items/front/", {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -29,7 +29,7 @@ const Cards = () => {
                             <CardMedia
                                 component="img"
                                 height="180"
-                                image={"http://localhost:8000/" + data.product_image}
+                                image={"http://localhost:80/" + data.product_image}
                                 alt="card_Front_imges"
                             />
                             <CardContent className="card-background">

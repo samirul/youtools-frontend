@@ -115,7 +115,7 @@ export default function SignUp(props) {
       try {
         const csrftoken = Cookies.get('csrftoken');
         const data = new FormData(event.currentTarget);
-        const response = await axios.post("http://localhost:8000/api/registration/", {
+        const response = await axios.post("http://localhost:80/api/registration/", {
           "email": data.get('email'),
           "password1": data.get('password'),
           "password2": data.get('password2'),
@@ -173,7 +173,7 @@ export default function SignUp(props) {
             return Promise.reject(error)
           }
         )
-        const response = await axios.post('http://localhost:8000/accounts/api/social/login/google/',{
+        const response = await axios.post('http://localhost:80/accounts/api/social/login/google/',{
           'code': codeResponse.code
         },{ withCredentials: true });
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {

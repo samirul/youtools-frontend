@@ -38,7 +38,7 @@ function App() {
       const timeout = 1000 * 300
       const fetchAccess = setInterval(async () => {
         try {
-          await axios.post('http://localhost:8000/api/auth/token/refresh/', {
+          await axios.post('http://localhost:80/api/auth/token/refresh/', {
             headers: {
               'X-CSRFToken': Cookies.get('csrftoken'),
               'Content-Type': 'application/json',

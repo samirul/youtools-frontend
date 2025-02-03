@@ -50,7 +50,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const fetchFooterTitle = async () =>{
-    const response = await axios.get("http://localhost:8000/api/others/footer-title/",{
+    const response = await axios.get("http://localhost:80/api/others/footer-title/",{
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -60,7 +60,7 @@ const Footer = () => {
   }
 
   const fetchLinks = async () =>{
-    const response = await axios.get("http://localhost:8000/api/others/links/",{
+    const response = await axios.get("http://localhost:80/api/others/links/",{
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -70,7 +70,7 @@ const Footer = () => {
   }
 
   const fetchsocialIconsLinks = async () =>{
-    const response = await axios.get("http://localhost:8000/api/others/social-links/",{
+    const response = await axios.get("http://localhost:80/api/others/social-links/",{
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -80,7 +80,7 @@ const Footer = () => {
   }
 
   const fetchCopyright = async () =>{
-    const response = await axios.get("http://localhost:8000/api/others/copyright-text/",{
+    const response = await axios.get("http://localhost:80/api/others/copyright-text/",{
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

@@ -59,7 +59,7 @@ const SentimentAnalysis = () => {
             const timer = setInterval(async () => {
                 try {
                     if (taskid) {
-                        const response = await axios.get(`http://localhost:8000/api/task-status/${taskid}/`, { withCredentials: true }, {
+                        const response = await axios.get(`http://localhost:80/api/task-status/${taskid}/`, { withCredentials: true }, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -120,7 +120,7 @@ const SentimentAnalysis = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8000/api/fetch_and_analysis/", {
+            const response = await axios.post("http://localhost:80/api/fetch_and_analysis/", {
                 "url": inputValueURL,
                 "max_len": inputValueAmount,
             }, { withCredentials: true }, {
@@ -156,7 +156,7 @@ const SentimentAnalysis = () => {
     useEffect(() => {
         const fetchCategory = setInterval(async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/categories/', { withCredentials: true }, {
+                const response = await axios.get('http://localhost:80/api/categories/', { withCredentials: true }, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -179,7 +179,7 @@ const SentimentAnalysis = () => {
     const handleDeleteCategories = async (e, id) => {
         e.stopPropagation();
         try {
-            await axios.delete(`http://localhost:8000/api/delete_category/${id}/`, { withCredentials: true }, {
+            await axios.delete(`http://localhost:80/api/delete_category/${id}/`, { withCredentials: true }, {
                 headers: {
                     'X-CSRFToken': Cookies.get('csrftoken'),
                     'Content-Type': 'application/json',

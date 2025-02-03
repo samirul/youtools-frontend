@@ -9,7 +9,7 @@ import axios from 'axios';
 const FrontNavbar = () => {
   const logged = Cookies.get('logged_in')
   const handlelogout = async () =>{
-    await axios.post('http://localhost:8000/api/auth/logout/',{
+    await axios.post('http://localhost:80/api/auth/logout/',{
       headers: {
         'X-CSRFToken': Cookies.get('csrftoken'),
         'Content-Type': 'application/json',

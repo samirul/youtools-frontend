@@ -10,7 +10,7 @@ export default function ProductCards() {
     const [products, setProducts] = useState([])
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/products/product-items/", { withCredentials: true }, {
+            const response = await axios.get("http://localhost:80/api/products/product-items/", { withCredentials: true }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -35,7 +35,7 @@ export default function ProductCards() {
                     <CardMedia
                         component="img"
                         height="180"
-                        image={`http://localhost:8000/${item.product_image}`}
+                        image={`http://localhost:80/${item.product_image}`}
                         alt={`product_images_${item.product_name}`}
                     />
                     <CardContent className="card-background">

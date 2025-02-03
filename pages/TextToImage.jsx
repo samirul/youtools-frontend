@@ -57,7 +57,7 @@ const TextToImage = () => {
     if (taskid != null && taskid != undefined && taskid != 0) {
       const timer = setInterval(async () => {
         try {
-          const response = await axios.get(`http://localhost:8000/api/task-status-image/${taskid}/`, { withCredentials: true }, {
+          const response = await axios.get(`http://localhost:80/api/task-status-image/${taskid}/`, { withCredentials: true }, {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -102,7 +102,7 @@ const TextToImage = () => {
   useEffect(() => {
     const fetchImages = setInterval(async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/images/", { withCredentials: true }, {
+        const response = await axios.get("http://localhost:80/api/images/", { withCredentials: true }, {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -131,7 +131,7 @@ const TextToImage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/generate_image/", {
+      const response = await axios.post("http://localhost:80/api/generate_image/", {
         "text": inputValue,
       }, { withCredentials: true }, {
         headers: {
@@ -180,14 +180,14 @@ const TextToImage = () => {
   const handleDeleteImage = async (e, id) => {
     e.stopPropagation();
     try {
-      await axios.delete(`http://localhost:8000/api/delete_image/${id}/`, { withCredentials: true }, {
+      await axios.delete(`http://localhost:80/api/delete_image/${id}/`, { withCredentials: true }, {
         headers: {
           'X-CSRFToken': Cookies.get('csrftoken'),
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
       })
-      const response = await axios.get("http://localhost:8000/api/images/", { withCredentials: true }, {
+      const response = await axios.get("http://localhost:80/api/images/", { withCredentials: true }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

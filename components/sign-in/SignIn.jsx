@@ -75,7 +75,7 @@ export default function SignIn(props) {
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       try {
-        const response = await axios.post('http://localhost:8000/accounts/api/social/login/google/', {
+        const response = await axios.post('http://localhost:80/accounts/api/social/login/google/', {
           'code': codeResponse.code
         }, { withCredentials: true });
         if (response.status === 200 && response.data.access && response.data.user.pk && response.data.user.email) {
@@ -114,7 +114,7 @@ export default function SignIn(props) {
           password: data.get('password'),
         };
         const csrftoken = Cookies.get('csrftoken');
-        const res = await axios.post('http://localhost:8000/api/auth/login/', payload, { withCredentials: true }, {
+        const res = await axios.post('http://localhost:80/api/auth/login/', payload, { withCredentials: true }, {
           headers: {
             'X-CSRFToken': csrftoken,
             'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export default function SignIn(props) {
 
   const resetSendPasswordEmail = async (email) => {
     try{
-      const response = await axios.post("http://localhost:8000/api/auth/password/reset/", {email}, {
+      const response = await axios.post("http://localhost:80/api/auth/password/reset/", {email}, {
         headers: {
           'X-CSRFToken': Cookies.get('csrftoken'),
           'Content-Type': 'application/json',

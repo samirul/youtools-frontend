@@ -8,7 +8,7 @@ import axios from 'axios';
 const Front = () => {
   const [topbanner, setTopBanner] = useState([]);
   const fetchTopBanner = async () => {
-    const response = await axios.get('http://localhost:8000/api/others/top-banner/', {
+    const response = await axios.get('http://localhost:80/api/others/top-banner/', {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -25,7 +25,7 @@ const Front = () => {
         <main className='grid-container'>
           { topbanner.map((data)=>(
           <div className='bannner' key={data.id}>
-            <img src={"http://localhost:8000/" + data.banner_image} alt="" srcSet="" />
+            <img src={"http://localhost:80/" + data.banner_image} alt="" srcSet="" />
             <h3>{data.banner_text}</h3>
           </div>
           ))}
