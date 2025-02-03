@@ -69,7 +69,7 @@ const Footer = () => {
     setLink(response.data)
   }
 
-  const fetchsocialIconsLinks = async () =>{
+  const fetchSocialIconsLinks = async () =>{
     const response = await axios.get("http://localhost:80/api/others/social-links/",{
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const Footer = () => {
   useEffect(()=>{
     fetchFooterTitle();
     fetchLinks();
-    fetchsocialIconsLinks();
+    fetchSocialIconsLinks();
     fetchCopyright();
   },[])
 
