@@ -1,5 +1,5 @@
 import React from 'react'
-import Chart from '../components/charts/chart'
+import Chart from '../components/charts/Chart'
 import Tables from '../components/Tables'
 import { useParams } from 'react-router-dom';
 
