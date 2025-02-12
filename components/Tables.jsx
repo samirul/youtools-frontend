@@ -213,7 +213,7 @@ export default function Tables({category_id}) {
     try {
       // Perform API call to delete selected rows
       await Promise.all(
-        selected.map((id) => axios.delete(`http://localhost:80/delete_result/${id}/`, { withCredentials: true }, {
+        selected.map((id) => axios.delete(`http://localhost:80/api/delete_result/${id}/`, { withCredentials: true }, {
           headers: {
             'X-CSRFToken': Cookies.get('csrftoken'),
             'Content-Type': 'application/json',

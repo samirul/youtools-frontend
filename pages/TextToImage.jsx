@@ -27,6 +27,7 @@ const TextToImage = () => {
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
+    width: 1000,
     borderRadius: 5,
     [`& .MuiLinearProgress-bar`]: {
       background: `linear-gradient(to right,rgb(255, 7, 7),rgb(255, 74, 210), rgb(251, 255, 12) )`,
@@ -237,41 +238,47 @@ const TextToImage = () => {
               </Button>
             </Box>
           </div>
-          <div className="text2image-images" style={{ visibility: imageData.length > 0 ? 'visible' : 'hidden' }}>
-            <Box
-              sx={{
-                width: '100%',
-                maxWidth: 800,
-                height: 1200,
-                overflowY: 'scroll',
-                margin: 'auto',
-                border: '1px solid #ddd',
-                borderRadius: 2,
-                padding: 1,
-              }}
-            >
-              <ImageList variant="masonry" cols={getColumns()} gap={8}>
-                {imageData ? imageData.map((item) => (
-                  <ImageListItem
-                    key={item.id}
-                    onClick={() => handleImageClick(item.image_data, item.mime_type)}
-                    style={{ cursor: 'pointer' }} // Makes the images clickable
-                  >
-                    <img
-                      src={`data:${item.mime_type};base64,${item.image_data}`}
-                      alt={item.image_name}
-                      loading="lazy"
-                      className='image-list'
-                    />
-                    <Grid2>
-                      <ImageListItemBar className='text-title-image' position="below" title={item.image_name.toUpperCase()} />
-                      <DeleteIcon className='delete-btn' onClick={(e) => handleDeleteImage(e, item.id)} />
-                    </Grid2>
-                  </ImageListItem>
-                )) : ""}
-              </ImageList>
-            </Box>
-          </div>
+          {imageData == undefined ? null :
+            <div className="text2image-images">
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: 800,
+                  height: 1200,
+                  overflowY: 'scroll',
+                  margin: 'auto',
+                  scrollbarWidth: "none", // Firefox
+                  "-ms-overflow-style": "none", // IE/Edge
+                  "&::-webkit-scrollbar": {
+                    display: "none", // Chrome, Safari, Edge
+                  },
+                  borderRadius: 2,
+                  padding: 1,
+                }}
+              >
+                <ImageList variant="masonry" cols={getColumns()} gap={8}>
+                  {imageData ? imageData.map((item) => (
+                    <ImageListItem
+                      key={item.id}
+                      onClick={() => handleImageClick(item.image_data, item.mime_type)}
+                      style={{ cursor: 'pointer' }} // Makes the images clickable
+                    >
+                      <img
+                        src={`data:${item.mime_type};base64,${item.image_data}`}
+                        alt={item.image_name}
+                        loading="lazy"
+                        className='image-list'
+                      />
+                      <Grid2>
+                        <ImageListItemBar className='text-title-image' position="below" title={item.image_name.toUpperCase()} />
+                        <DeleteIcon className='delete-btn' onClick={(e) => handleDeleteImage(e, item.id)} />
+                      </Grid2>
+                    </ImageListItem>
+                  )) : ""}
+                </ImageList>
+              </Box>
+            </div>
+          }
         </main>
       </div>
     </>

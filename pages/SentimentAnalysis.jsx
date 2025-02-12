@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const SentimentAnalysis = () => {
     const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
+        width: 1000,
         borderRadius: 5,
         [`& .MuiLinearProgress-bar`]: {
             background: `linear-gradient(to right,rgb(255, 7, 7),rgb(255, 74, 210), rgb(251, 255, 12) )`,
@@ -248,7 +249,7 @@ const SentimentAnalysis = () => {
 
                     <div className="sentiment-analysis-Categories">
                         <div className='cards-category-grid'>
-                            {categories.map((val, index) => (
+                            {categories ? categories.map((val, index) => (
                                 <Card sx={{ minWidth: 100 }} key={index} className='cards-category' onClick={() => handleProceed(val.id)}>
                                     <CardContent>
                                         <Typography variant="h7" component="div" className='category-cate'>
@@ -261,7 +262,7 @@ const SentimentAnalysis = () => {
                                         <DeleteIcon className='delete-btn' onClick={(e) => handleDeleteCategories(e, val.id)} />
                                     </CardContent>
                                 </Card>
-                            ))}
+                            )): ""}
                         </div>
                     </div>
                 </main>
