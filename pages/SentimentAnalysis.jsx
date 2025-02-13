@@ -188,6 +188,13 @@ const SentimentAnalysis = () => {
                 },
             })
             setDeletedCategory(true)
+            const response = await axios.get('http://localhost:80/api/categories/', { withCredentials: true }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                }
+            });
+            setCategories(response.data.msg.data)
         } catch (error) {
             if (error.status == 401) {
                 window.location.replace("/login")
