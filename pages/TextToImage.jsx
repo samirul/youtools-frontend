@@ -18,11 +18,12 @@ import { Grid2 } from '@mui/material';
 
 
 const TextToImage = () => {
+  const item = localStorage.getItem('_id_task_id_')
   const [progress, setProgress] = useState(0);
-  const [taskid, setTaskID] = useState(Cookies.get('task_id_text2'));
   const [status, setStatus] = useState("Waiting for text..");
   const [inputValue, setInputValue] = useState('');
   const [imageData, setImageData] = useState([]);
+  const [taskid, setTaskID] = useState(Cookies.get(`task_id_text2_${item}`))
 
 
   const GradientLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -132,6 +133,13 @@ const TextToImage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const res = await axios.get("http://localhost/accounts/user/", { withCredentials: true }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      })
+      localStorage.setItem("_id_task_id_", res.data.user.id)
       const response = await axios.post("http://localhost:80/api/generate_image/", {
         "text": inputValue,
       }, { withCredentials: true }, {
@@ -143,7 +151,8 @@ const TextToImage = () => {
 
       })
       setTaskID(response.data.msg.result_id)
-      Cookies.set('task_id_text2', response.data.msg.result_id)
+      const item = localStorage.getItem('_id_task_id_')
+      Cookies.set(`task_id_text2_${item}`, response.data.msg.result_id)
     } catch (error) {
       if (error.status == 401) {
         window.location.replace("/login")

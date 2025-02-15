@@ -45,14 +45,14 @@ const SentimentAnalysis = () => {
     LinearProgressWithLabel.propTypes = {
         value: PropTypes.number.isRequired,
     };
-
+    const item = localStorage.getItem('_id_task_id_')
     const [progress, setProgress] = useState(0);
-    const [taskid, setTaskID] = useState(Cookies.get('task_id_sentiment'))
     const [status, setStatus] = useState("Waiting for an url..");
     const [inputValueURL, setInputValueURL] = useState('');
     const [inputValueAmount, setInputValueAmount] = useState(1);
     const [categories, setCategories] = useState([])
     const [deleteCategory, setDeletedCategory] = useState(false);
+    const [taskid, setTaskID] = useState(Cookies.get(`task_id_sentiment_${item}`))
 
 
     useEffect(() => {
@@ -121,6 +121,13 @@ const SentimentAnalysis = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const res = await axios.get("http://localhost/accounts/user/", { withCredentials: true }, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                }
+              })
+              localStorage.setItem("_id_task_id_", res.data.user.id)
             const response = await axios.post("http://localhost:80/api/fetch_and_analysis/", {
                 "url": inputValueURL,
                 "max_len": inputValueAmount,
@@ -133,7 +140,8 @@ const SentimentAnalysis = () => {
 
             })
             setTaskID(response.data.msg.result_id)
-            Cookies.set('task_id_sentiment', response.data.msg.result_id)
+            const item = localStorage.getItem('_id_task_id_')
+            Cookies.set(`task_id_sentiment_${item}`, response.data.msg.result_id)
         } catch (error) {
             if (error.status == 401) {
                 window.location.replace("/login")
