@@ -33,6 +33,7 @@ function App() {
     }
     sessionStorage.removeItem('BackdropSession')
   }, [])
+
   useEffect(() => {
     if (Cookies.get('logged_in')) {
       const timeout = 1000 * 300
@@ -53,6 +54,40 @@ function App() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (Cookies.get('logged_in')) {
+      const timeout = 5000
+      const fetchAccess = setInterval(async () => {
+        try {
+          await axios.get("http://localhost/accounts/user/", { withCredentials: true }, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            }
+          })
+        } catch (error) {
+          if (error.status == 401) {
+            try {
+              await axios.post('http://localhost:80/api/auth/token/refresh/', {
+                headers: {
+                  'X-CSRFToken': Cookies.get('csrftoken'),
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                }
+              }, { withCredentials: true });
+              Cookies.set('logged_in', true, { expires: new Date(new Date().getTime() + 15 * 60 * 1000), path: '' })
+            } catch (error) {}
+          }
+        }
+      }, timeout);
+      return () => {
+        clearInterval(fetchAccess);
+      }
+    }
+  }, []);
+
+
   const logged = Cookies.get('logged_in')
   return (
     <>
@@ -81,9 +116,9 @@ function App() {
           </Routes>
         }
         {backdrop ? "" :
-        <footer>
-          <Footer />
-        </footer>
+          <footer>
+            <Footer />
+          </footer>
         }
       </Router>
     </>
