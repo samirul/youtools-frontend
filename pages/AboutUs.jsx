@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import ReactMarkdown from "react-markdown";
 
 const AboutUs = () => {
     const [aboutData, setAboutData] = useState([]);
@@ -20,7 +21,7 @@ const AboutUs = () => {
     },[])
     return (
         <>
-            <div className="about-page">
+            <div className="about-page" style={{ whiteSpace: "pre-wrap", lineHeight: "1.5" }}>
                 <main className="grid-container-about-us">
                     {aboutData ? aboutData.map((data, index)=>(
                     <div className="about-container" key={index}>
@@ -31,7 +32,7 @@ const AboutUs = () => {
                         </div>
                         <div className="about-description">
                             <div className="about-description-text">
-                                {data.description}
+                                <ReactMarkdown>{data.description}</ReactMarkdown>
                             </div>
                         </div>
                     </div>

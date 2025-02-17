@@ -1,50 +1,50 @@
-.about-page{
+.privacy-page{
     display: flex;
     flex-direction: column;
     min-height: 60vh;
 }
 
-.grid-container-about-us{
+.grid-container-privacy-policy{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin: 66px auto;
 }
 
-.about-container{
+.privacy-container{
     grid-column: span 3;
     text-align: center;
     max-width: 60%;
     margin: 80px auto;
 }
 
-h1.about-title-text{
+h1.privacy-title-text{
     color: #676669;
     font-size: 60px;
 }
 
-div.about-description-text{
+div.privacy-description-text{
     color: #fff;
     font-size: 20px;
     text-align: left;
 }
 
-.about-container{
+.privacy-container{
     margin: 1em auto;
 }
 
-.about-description{
+.privacy-description{
     margin-top: 5em;
 }
 
 @media screen and (max-width: 995px) {
-    .about-container{
+    .privacy-container{
         grid-column: span 3;
         text-align: center;
         max-width: 80%;
         margin: 80px auto;
     }
 
-    h1.about-title-text{
+    h1.privacy-title-text{
         font-size: 40px;
     }
 
