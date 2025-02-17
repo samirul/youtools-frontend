@@ -1,22 +1,41 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 const AboutUs = () => {
+    const [aboutData, setAboutData] = useState([]);
+
+    const fetchData = async () => {
+        const response = await axios.get("http://localhost/api/others/about-us/", {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        })
+        console.log(response)
+        setAboutData(response.data);
+    }
+
+    useEffect(()=>{
+        fetchData();
+    },[])
     return (
         <>
             <div className="about-page">
                 <main className="grid-container-about-us">
-                    <div className="about-container">
+                    {aboutData ? aboutData.map((data, index)=>(
+                    <div className="about-container" key={index}>
                         <div className="about-title">
                             <h1 className='about-title-text'>
-                                About us
+                                {data.title}
                             </h1>
                         </div>
                         <div className="about-description">
                             <div className="about-description-text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nobis veritatis expedita doloremque, laudantium animi consectetur optio culpa facilis pariatur, cumque repellat molestiae unde? Consectetur quisquam dignissimos placeat nostrum exercitationem tenetur molestiae corrupti aperiam! Nemo est, eius magnam quo, consectetur saepe quibusdam optio officiis officia qui, ab nobis velit dolorem?
+                                {data.description}
                             </div>
                         </div>
                     </div>
+                    )): ""}
                 </main>
             </div>
         </>
