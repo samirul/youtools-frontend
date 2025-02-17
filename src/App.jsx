@@ -19,6 +19,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Notfoundpage from '../pages/Notfoundpage';
+import AboutUs from '../pages/AboutUs';
+import PrivacyPolicy from '../pages/PrivacyPolicy';
 
 function App() {
   const [backdrop, setBackDrop] = useState(false);
@@ -113,6 +115,8 @@ function App() {
             <Route path="/login" exact element={<Login />} />
             <Route path="/register" exact element={<Register />} />
             <Route path="*" exact element={<Notfoundpage />} />
+            <Route path="/about" exact element={<AboutUs />} />
+            <Route path="/privacy" exact element={<PrivacyPolicy />} />
           </Routes>
         }
         {backdrop ? "" :
