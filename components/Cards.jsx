@@ -24,7 +24,7 @@ const Cards = () => {
         <>
             <div className='cards-grid'>
                 {card.map((data) => (
-                    <Card sx={{ maxWidth: 345 }} className='card-items' key={data.id}>
+                    <Card sx={{ maxWidth: 340 }} className='card-items' key={data.id}>
                         <CardActionArea>
                             <CardMedia
                                 component="img"
@@ -43,24 +43,6 @@ const Cards = () => {
                         </CardActionArea>
                     </Card>
                 ))}
-                <Card sx={{ maxWidth: 345 }} className='card-items'>
-                    <CardActionArea>
-                        <CardMedia
-                            component="img"
-                            height="180"
-                            image="../images/img1.jpg"
-                            alt="card_Front_imges"
-                        />
-                        <CardContent className="card-background">
-                            <Typography gutterBottom variant="h5" component="div" className="title-color">
-                                Coming soon
-                            </Typography>
-                            <Typography variant="body2" className="card-text">
-                                More Coming soon, stay tuned.
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
             </div>
 
         </>
