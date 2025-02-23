@@ -40,7 +40,6 @@ const FrontNavbar = () => {
         'Accept': 'application/json',
       }
     })
-    console.log(response.data.user)
     setUserProfile([response.data.user])
   }
   useEffect(()=>{
