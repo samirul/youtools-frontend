@@ -5,7 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Cookies from 'js-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from 'react-bootstrap/Image';
-import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 
 const FrontNavbar = () => {
