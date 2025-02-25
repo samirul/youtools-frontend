@@ -11,35 +11,40 @@ const FrontNavbar = () => {
   const [userProfile, setUserProfile] = useState([])
   const logged = Cookies.get('logged_in')
 
-  const handlelogout = async () =>{
-    const res = await axios.get("http://localhost/accounts/user/", { withCredentials: true }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    })
-    await axios.post('http://localhost:80/api/auth/logout/',{
-      headers: {
-        'X-CSRFToken': Cookies.get('csrftoken'),
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    }, { withCredentials: true });
-    Cookies.remove('logged_in')
-    Cookies.remove(`task_id_text2_${res.data.user.id}`)
-    Cookies.remove(`task_id_sentiment_${res.data.user.id}`)
-    localStorage.removeItem('_id_task_id_')
-    window.location.replace("/")
+  const handlelogout = async () => {
+    if (logged) {
+      const res = await axios.get("http://localhost/accounts/user/", { withCredentials: true }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      })
+      await axios.post('http://localhost:80/api/auth/logout/', {
+        headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      }, { withCredentials: true });
+      Cookies.remove('logged_in')
+      Cookies.remove(`task_id_text2_${res.data.user.id}`)
+      Cookies.remove(`task_id_sentiment_${res.data.user.id}`)
+      localStorage.removeItem('_id_task_id_')
+      window.location.replace("/")
+    }
   }
 
   const handleProfile = async () =>{
-    const response = await axios.get("http://localhost/accounts/user/", { withCredentials: true }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    })
-    setUserProfile([response.data.user])
+    if(logged){
+      const response = await axios.get("http://localhost/accounts/user/", { withCredentials: true }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      })
+      setUserProfile([response.data.user])
+    }
+    
   }
   useEffect(()=>{
     handleProfile();

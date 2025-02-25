@@ -1,7 +1,9 @@
 services:
   youtools-frontend:
     container_name: youtools-frontend
-    image: youtools-frontend
+    image: samirul08/youtools-frontend
+    env_file:
+      - ".env"
     ports:
       - "8080:8080"
     environment:
