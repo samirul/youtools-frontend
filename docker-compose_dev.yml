@@ -12,3 +12,8 @@ services:
     environment:
       - NGINX_ENABLE_ABSOLUTE_REDIRECT=no
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 300M
